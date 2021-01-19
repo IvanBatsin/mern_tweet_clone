@@ -1,0 +1,95 @@
+{
+  "tweets": [
+    {
+      "id": 1,
+      "_id": "qwer",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, consectetur porro repellat illo quisquam quam! Enim, dignissimos iste quasi, asperiores delectus quisquam dolore numquam sequi rerum alias dolorum obcaecati est.",
+      "user": {
+        "fullName": "Dora Shaning",
+        "userName": "Shar",
+        "avatarUrl": "https://source.unsplash.com/random/100x100?3"
+      }
+    },
+    {
+      "id": 2,
+      "_id": "qwerw",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, consectetur porro repellat illo quisquam quam! Enim, dignissimos iste quasi, asperiores delectus quisquam dolore numquam sequi rerum alias dolorum obcaecati est.",
+      "user": {
+        "fullName": "Liza Olbet",
+        "userName": "Taritty",
+        "avatarUrl": "https://source.unsplash.com/random/100x100?3"
+      }
+    },
+    {
+      "id": 3,
+      "_id": "qwert",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, consectetur porro repellat illo quisquam quam! Enim, dignissimos iste quasi, asperiores delectus quisquam dolore numquam sequi rerum alias dolorum obcaecati est.",
+      "user": {
+        "fullName": "Stephanny Maghbet",
+        "userName": "Moony",
+        "avatarUrl": "https://source.unsplash.com/random/100x100?3"
+      }
+    },
+    {
+      "id": 4,
+      "_id": "qweruo",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, consectetur porro repellat illo quisquam quam! Enim, dignissimos iste quasi, asperiores delectus quisquam dolore numquam sequi rerum alias dolorum obcaecati est.",
+      "user": {
+        "fullName": "Lita Vamos",
+        "userName": "Orgo",
+        "avatarUrl": "https://source.unsplash.com/random/100x100?3"
+      }
+    },
+    {
+      "_id": "o47379kxz1a",
+      "text": "Sorry",
+      "user": {
+        "avatarUrl": "https://images.unsplash.com/photo-1527335480088-278dbeec0ad5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+        "fullName": "First User",
+        "userName": "Shafty"
+      },
+      "id": 5
+    },
+    {
+      "_id": "cuj3te1obmc",
+      "text": "Test add tweet action creator",
+      "user": {
+        "avatarUrl": "https://images.unsplash.com/photo-1527335480088-278dbeec0ad5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+        "fullName": "First User",
+        "userName": "Shafty"
+      },
+      "id": 6
+    }
+  ],
+  "themes": [
+    {
+      "name": "Navalnuy",
+      "count": 244
+    },
+    {
+      "name": "Gitler",
+      "count": 2434
+    },
+    {
+      "name": "CyberPunk",
+      "count": 2448
+    }
+  ],
+  "users": [
+    {
+      "fullName": "Dora Shaning",
+      "userName": "Shar",
+      "avatarUrl": "https://source.unsplash.com/random/100x100?3"
+    },
+    {
+      "fullName": "Lita Vamos",
+      "userName": "Orgo",
+      "avatarUrl": "https://source.unsplash.com/random/100x100?3"
+    }
+  ],
+  "user": {
+    "fullName": "Dora Shaning",
+    "userName": "Shar",
+    "avatarUrl": "https://source.unsplash.com/random/100x100?3"
+  }
+}
