@@ -5,7 +5,7 @@ import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import TextField from '@material-ui/core/TextField/TextField';
 import { ModalPopup } from '../../../components';
 import { useSingInStyles } from '../singInClasses';
-import {  selectUserStatus } from '../../../store/ducks/user/selector';
+import { selectUserLoadingStatus } from '../../../store/ducks/user/selector';
 import { fetchSingIn } from '../../../store//ducks/user/actionCreators';
 import { LoadingState } from '../../../interfaces/LoadingState';
 
@@ -37,7 +37,7 @@ const LoginPopup: React.FC<ILoginProps> = ({open, onClose}: ILoginProps) => {
   const classes = useSingInStyles();
   const openNotification = useRef<(text: string, type: Color) => void>(() => {});
   const dispatch = useDispatch();
-  const loadingStatus = useSelector(selectUserStatus);
+  const loadingStatus = useSelector(selectUserLoadingStatus);
 
   const { control, handleSubmit, errors } = useForm<IFormInputs>({
     resolver: yupResolver(loginFormSchema)
@@ -60,54 +60,47 @@ const LoginPopup: React.FC<ILoginProps> = ({open, onClose}: ILoginProps) => {
     }
   }, [loadingStatus]);
   
-  return <Notification>
-    {
-      callback => {
-        openNotification.current = callback;
-        return (
-          <ModalPopup visible={open} onClose={onClose} title="Войти в Twitter" classes={classes}>
-            <form onSubmit={handleSubmit(handleFormSubmit)}>
-              <FormControl className={classes.registerFormControl}  component="fieldset" fullWidth>
-                <FormGroup aria-label="position" row>
-                  <Controller
-                    as={TextField}
-                    control={control}
-                    defaultValue=""
-                    autoFocus
-                    name="email"
-                    variant="filled"
-                    margin="dense"
-                    id="email"
-                    label="Email address"  
-                    type="email"
-                    fullWidth
-                    InputLabelProps={{shrink: true}}
-                    error={!!errors.email?.message}
-                    helperText={errors.email?.message}
-                  />
-                  <Controller
-                    as={TextField}
-                    control={control}
-                    defaultValue=""
-                    name="password"
-                    variant="filled"
-                    margin="dense"
-                    id="password"
-                    label="Password"  
-                    type="password"
-                    fullWidth
-                    error={!!errors.password?.message}
-                    helperText={errors.password?.message}
-                  />
-                  <Button disabled={loadingStatus === LoadingState.LOADING} type="submit" color="primary" fullWidth variant="contained">Войти</Button>
-                </FormGroup>
-              </FormControl>
-            </form>
-          </ModalPopup>
-        )
-      }
-    }
-  </Notification>
+  return (
+    <ModalPopup visible={open} onClose={onClose} title="Войти в Twitter" classes={classes}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <FormControl className={classes.registerFormControl}  component="fieldset" fullWidth>
+          <FormGroup aria-label="position" row>
+            <Controller
+              as={TextField}
+              control={control}
+              defaultValue=""
+              autoFocus
+              name="email"
+              variant="filled"
+              margin="dense"
+              id="email"
+              label="Email address"  
+              type="email"
+              fullWidth
+              InputLabelProps={{shrink: true}}
+              error={!!errors.email?.message}
+              helperText={errors.email?.message}
+            />
+            <Controller
+              as={TextField}
+              control={control}
+              defaultValue=""
+              name="password"
+              variant="filled"
+              margin="dense"
+              id="password"
+              label="Password"  
+              type="password"
+              fullWidth
+              error={!!errors.password?.message}
+              helperText={errors.password?.message}
+            />
+            <Button disabled={loadingStatus === LoadingState.LOADING} type="submit" color="primary" fullWidth variant="contained">Войти</Button>
+          </FormGroup>
+        </FormControl>
+      </form>
+    </ModalPopup>
+  )
 }
 
 export { LoginPopup };

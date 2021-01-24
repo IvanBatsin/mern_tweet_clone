@@ -26,7 +26,19 @@ export function* fetchSingUpRequest({payload}: IFetchSingUp){
   }
 }
 
+export function* fetchGetMe() {
+  try {
+    yield put(setUserLoading(LoadingState.LOADING));
+    const data = yield call(userApi.getMe);
+    yield put(setUserData(data.data));
+    yield put(setUserLoading(LoadingState.LOADED));
+  } catch (error) {
+    yield put(setUserLoading(LoadingState.ERROR));
+  }
+}
+
 export function* userSagas(){
   yield takeEvery(UserActionTypes.FETCH_SING_IN, fetchSingInRequest);
   yield takeEvery(UserActionTypes.FETCH_SING_UP, fetchSingUpRequest);
+  yield takeEvery(UserActionTypes.GET_ME, fetchGetMe);
 }

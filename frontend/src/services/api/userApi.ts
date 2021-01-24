@@ -1,4 +1,5 @@
 import { axios } from '../../core/axios';
+import { IUser } from '../../interfaces/User';
 import { IFormInputs } from '../../pages/singIn/components/LoginModal';
 import { IFormInputsRegister } from '../../pages/singIn/components/RegisterPopup';
 
@@ -26,6 +27,11 @@ interface IAuthResponse {
   data?: IResponseDataSingIn | IResponseDataSingUp
 }
 
+interface IGetMeResponse {
+  status: string,
+  data: IUser
+}
+
 export const userApi = {
   async singIn(postData: IFormInputs): Promise<IAuthResponse> {
     const { data } = await axios.post<IAuthResponse>('/auth/login', {username: postData.email, password: postData.password});
@@ -44,8 +50,8 @@ export const userApi = {
     return data;
   },
   
-  async getMe(): Promise<IAuthResponse> {
-    const { data } = await axios.get('/users/me');
+  async getMe(): Promise<IGetMeResponse> {
+    const { data } = await axios.get<IGetMeResponse>('/users/me');
     return data;
   }
 }

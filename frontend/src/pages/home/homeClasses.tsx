@@ -198,5 +198,11 @@ export const useHomeStyles = makeStyles((theme) => ({
   addFormBottomRight: {
     display: 'flex',
     alignItems: 'center'
+  },
+  centerdeLoading: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)'
   }
 }));

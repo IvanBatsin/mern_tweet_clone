@@ -21,15 +21,12 @@ const Home: React.FC = (): React.ReactElement => {
   const tweets = useSelector(selectTweetsItems);
   let isLoading = useSelector(selectTweetsIsLoading);
 
-  // const handleFetchTweets = () =>{ 
-  //   dispatch(fetchTweets());
-  // }
-
   useEffect(() => {
     // handleFetchTweets();
     dispatch(fetchTweets());
     // dispatch(fetchTags());
   }, []);
+  
   return (
     <Container className={classes.wrapper} maxWidth="lg">
       <Grid container spacing={3}>

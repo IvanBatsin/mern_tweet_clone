@@ -6,7 +6,7 @@ import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import TextField from '@material-ui/core/TextField/TextField';
 import Button from '@material-ui/core/Button/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUserStatus } from '../../../store/ducks/user/selector';
+import { selectUserLoadingStatus } from '../../../store/ducks/user/selector';
 import { fetchSingUp } from '../../../store/ducks/user/actionCreators';
 import { LoadingState } from '../../../interfaces/LoadingState';
  
@@ -44,7 +44,7 @@ const RegisterPopup: React.FC<IRegisterProps> = ({onClose, open}: IRegisterProps
   const classes = useSingInStyles();
   const openNotification = useRef<(text: string, type: Color) => void>(() => {});
   const dispatch = useDispatch();
-  const loadingStatus = useSelector(selectUserStatus);
+  const loadingStatus = useSelector(selectUserLoadingStatus);
 
   const { control, handleSubmit, errors } = useForm<IFormInputsRegister>({
     resolver: yupResolver(loginFormSchema)
@@ -66,108 +66,102 @@ const RegisterPopup: React.FC<IRegisterProps> = ({onClose, open}: IRegisterProps
       openNotification.current('Произошла ошибка', 'error');
     }
   }, [loadingStatus]);
-  return <Notification>
-    {
-      callback => {
-        return (
-          <ModalPopup visible={open} onClose={onClose} title="Создайте учетную запись" classes={classes}>
-            <form onSubmit={handleSubmit(handleFormSubmit)}>
-              <FormControl component="fieldset" fullWidth>
-                <FormGroup aria-label="position" row>
-                  <Controller
-                    as={TextField}
-                    control={control}
-                    defaultValue=""
-                    className={classes.registerField}
-                    autoFocus
-                    name="fullName"
-                    variant="filled"
-                    margin="dense"
-                    id="fullName"
-                    label="Имя"  
-                    type="text"
-                    fullWidth
-                    InputLabelProps={{shrink: true}}
-                    error={!!errors.fullName?.message}
-                    helperText={errors.fullName?.message}
-                  />
-                  <Controller
-                    as={TextField}
-                    control={control}
-                    defaultValue=""
-                    className={classes.registerField}
-                    autoFocus
-                    name="userName"
-                    variant="filled"
-                    margin="dense"
-                    id="userName"
-                    label="Login"  
-                    type="text"
-                    fullWidth
-                    InputLabelProps={{shrink: true}}
-                    error={!!errors.userName?.message}
-                    helperText={errors.userName?.message}
-                  />
-                  <Controller
-                    as={TextField}
-                    control={control}
-                    defaultValue=""
-                    name="email"
-                    className={classes.registerField}
-                    autoFocus
-                    variant="filled"
-                    margin="dense"
-                    id="email"
-                    label="E-mail"  
-                    type="email"
-                    fullWidth
-                    InputLabelProps={{shrink: true}}
-                    error={!!errors.email?.message}
-                    helperText={errors.email?.message}
-                  />
-                  <Controller
-                    as={TextField}
-                    control={control}
-                    defaultValue=""
-                    name="password"
-                    className={classes.registerField}
-                    autoFocus
-                    variant="filled"
-                    margin="dense"
-                    id="password"
-                    label="Пароль"  
-                    type="password"
-                    fullWidth
-                    InputLabelProps={{shrink: true}}
-                    error={!!errors.password?.message}
-                    helperText={errors.password?.message}
-                  />
-                  <Controller
-                    as={TextField}
-                    control={control}
-                    defaultValue=""
-                    name="password2"
-                    className={classes.registerField}
-                    autoFocus
-                    variant="filled"
-                    margin="dense"
-                    id="password2"
-                    label="Подтвердить пароль"  
-                    type="password"
-                    fullWidth
-                    InputLabelProps={{shrink: true}}
-                    error={!!errors.password2?.message}
-                    helperText={errors.password2?.message}
-                  />
-                  <Button disabled={loadingStatus === LoadingState.LOADING} type="submit" color="primary" fullWidth variant="contained">Регистрация</Button>
-                </FormGroup>
-              </FormControl>
-            </form>
-          </ModalPopup> 
-        )
-      }
-    }
-  </Notification>
+  return (
+    <ModalPopup visible={open} onClose={onClose} title="Создайте учетную запись" classes={classes}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <FormControl component="fieldset" fullWidth>
+          <FormGroup aria-label="position" row>
+            <Controller
+              as={TextField}
+              control={control}
+              defaultValue=""
+              className={classes.registerField}
+              autoFocus
+              name="fullName"
+              variant="filled"
+              margin="dense"
+              id="fullName"
+              label="Имя"  
+              type="text"
+              fullWidth
+              InputLabelProps={{shrink: true}}
+              error={!!errors.fullName?.message}
+              helperText={errors.fullName?.message}
+            />
+            <Controller
+              as={TextField}
+              control={control}
+              defaultValue=""
+              className={classes.registerField}
+              autoFocus
+              name="userName"
+              variant="filled"
+              margin="dense"
+              id="userName"
+              label="Login"  
+              type="text"
+              fullWidth
+              InputLabelProps={{shrink: true}}
+              error={!!errors.userName?.message}
+              helperText={errors.userName?.message}
+            />
+            <Controller
+              as={TextField}
+              control={control}
+              defaultValue=""
+              name="email"
+              className={classes.registerField}
+              autoFocus
+              variant="filled"
+              margin="dense"
+              id="email"
+              label="E-mail"  
+              type="email"
+              fullWidth
+              InputLabelProps={{shrink: true}}
+              error={!!errors.email?.message}
+              helperText={errors.email?.message}
+            />
+            <Controller
+              as={TextField}
+              control={control}
+              defaultValue=""
+              name="password"
+              className={classes.registerField}
+              autoFocus
+              variant="filled"
+              margin="dense"
+              id="password"
+              label="Пароль"  
+              type="password"
+              fullWidth
+              InputLabelProps={{shrink: true}}
+              error={!!errors.password?.message}
+              helperText={errors.password?.message}
+            />
+            <Controller
+              as={TextField}
+              control={control}
+              defaultValue=""
+              name="password2"
+              className={classes.registerField}
+              autoFocus
+              variant="filled"
+              margin="dense"
+              id="password2"
+              label="Подтвердить пароль"  
+              type="password"
+              fullWidth
+              InputLabelProps={{shrink: true}}
+              error={!!errors.password2?.message}
+              helperText={errors.password2?.message}
+            />
+            <Button disabled={loadingStatus === LoadingState.LOADING} type="submit" color="primary" fullWidth variant="contained">Регистрация</Button>
+          </FormGroup>
+        </FormControl>
+      </form>
+    </ModalPopup>
+  )
 }
 
 export { RegisterPopup };

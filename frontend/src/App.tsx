@@ -1,43 +1,41 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
-import { userApi } from './services/api/userApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserData } from './store/ducks/user/actionCreators';
+import { getMe } from './store/ducks/user/actionCreators';
+import { LoadingState } from './interfaces/LoadingState';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useHomeStyles } from './pages/home/homeClasses';
 
 // Pages
 import { Home, SingIn } from './pages/index';
-import { selectIsAuth } from './store/ducks/user/selector';
+import { selectIsAuth, selectUserLoadingStatus } from './store/ducks/user/selector';
 
 function App() {
   const history = useHistory();
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  // const isReady = 
-
-  const checkAuth = async () => {
-    try {
-      const { data } = await userApi.getMe();
-      dispatch(setUserData(data));
-      // history.replace('/home');
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  const userLoadingState = useSelector(selectUserLoadingStatus);
+  const isReady = userLoadingState !== LoadingState.NEVER && userLoadingState !== LoadingState.LOADING;
+  const classes = useHomeStyles();
 
   useEffect(() => {
-    if (isAuth){
+    if (isAuth && isReady && userLoadingState === LoadingState.LOADED){
       history.push('/home');
+    } else if (isReady && !isAuth) {
+      history.push('/signin');
     }
-  }, [isAuth]);
+  }, [isAuth, isReady]);
 
   useEffect(() => {
-    checkAuth();
+    dispatch(getMe());
   }, []);
+
+  if (!isReady) return <div className={classes.centerdeLoading}><CircularProgress/></div>
 
   return (
     <div className="App">
       <Switch>
-        <Route path="/singin" exact component={SingIn}></Route>
+        <Route path="/signin" exact component={SingIn}></Route>
         <Route path="/home" component={Home}></Route>
       </Switch>
     </div>
