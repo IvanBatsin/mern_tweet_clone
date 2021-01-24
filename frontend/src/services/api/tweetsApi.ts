@@ -1,5 +1,5 @@
 import { axios } from '../../core/axios';
-import { Tweet } from '../../store/ducks/tweets/contracts/state';
+import { Tweet } from '../../interfaces/Tweet';
 
 interface IResponse<T> {
   status: string,

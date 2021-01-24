@@ -1,5 +1,6 @@
 import { RootStore } from '../../rootStore';
-import { LoadingState, FullTweetState } from './state';
+import { FullTweetState } from './state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 export const selectFullTweet = (state: RootStore): FullTweetState => state.tweet;
 

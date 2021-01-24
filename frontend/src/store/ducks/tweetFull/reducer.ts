@@ -1,6 +1,7 @@
 import produce, { Draft } from 'immer';
-import { FullTweetState, LoadingState } from './state';
+import { FullTweetState } from './state';
 import { FullTweetAction, FullTweetActionType } from './actionCreators';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 const initialTweetsState: FullTweetState = {
   data: undefined,

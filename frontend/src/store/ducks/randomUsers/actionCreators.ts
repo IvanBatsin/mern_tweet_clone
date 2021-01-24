@@ -1,6 +1,6 @@
 import { Action } from 'redux';
-import { IUser } from './state';
-import { LoadingState } from '../tweets/contracts/state';
+import { IUser } from '../../../interfaces/User';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 export enum RandomUsersActionTypes {
   SET_ITEMS = 'random/SET_ITEMS',

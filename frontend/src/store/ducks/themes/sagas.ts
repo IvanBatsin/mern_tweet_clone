@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { ThemesApi } from '../../../services/api/themesApi';
 import { setTags, setTagsLoadingStatus, TagsActionType } from './actionCreators';
-import { LoadingState } from './state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 function* fetchTagsRequest() {
   try {

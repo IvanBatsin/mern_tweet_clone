@@ -1,5 +1,6 @@
 import { RootStore } from '../../rootStore';
-import { LoadingState, TweetsState, AddFromLoading } from './contracts/state';
+import { TweetsState, AddFromLoading } from './state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 
 export const selectTweets = (state: RootStore): TweetsState => state.tweets;

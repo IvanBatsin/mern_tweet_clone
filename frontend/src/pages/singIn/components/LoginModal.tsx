@@ -7,7 +7,7 @@ import { ModalPopup } from '../../../components';
 import { useSingInStyles } from '../singInClasses';
 import {  selectUserStatus } from '../../../store/ducks/user/selector';
 import { fetchSingIn } from '../../../store//ducks/user/actionCreators';
-import { LoadingState } from '../../../store/ducks/tweets/contracts/state'; 
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 // React Hook From
 import { useForm, Controller } from "react-hook-form";

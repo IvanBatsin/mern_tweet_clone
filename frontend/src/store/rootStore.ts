@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga'
 import rootSaga from './rootSaga';
 
 // States
-import { TweetsState } from './ducks/tweets/contracts/state';
+import { TweetsState } from './ducks/tweets/state';
 import { TagsState } from './ducks/themes/state';
 import { FullTweetState } from './ducks/tweetFull/state';
 import { IUserState } from './ducks/user/state';

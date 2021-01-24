@@ -1,6 +1,6 @@
 import { IUserState } from './state';
 import { RootStore } from '../../rootStore';
-import { LoadingState } from '../tweets/contracts/state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 export const selectUserState = (state: RootStore): IUserState => state.user;
 export const selectUserStatus = (state: RootStore): IUserState['status'] => selectUserState(state).status;

@@ -26,7 +26,7 @@ interface IAuthResponse {
   data?: IResponseDataSingIn | IResponseDataSingUp
 }
 
-export const authApi = {
+export const userApi = {
   async singIn(postData: IFormInputs): Promise<IAuthResponse> {
     const { data } = await axios.post<IAuthResponse>('/auth/login', {username: postData.email, password: postData.password});
     return data;
@@ -45,7 +45,7 @@ export const authApi = {
   },
   
   async getMe(): Promise<IAuthResponse> {
-    const {data} = await axios.get('/users/me');
+    const { data } = await axios.get('/users/me');
     return data;
   }
 }

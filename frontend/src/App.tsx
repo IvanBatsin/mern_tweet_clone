@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
-import { authApi } from './services/api/authApi';
+import { userApi } from './services/api/userApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from './store/ducks/user/actionCreators';
 
@@ -12,10 +12,11 @@ function App() {
   const history = useHistory();
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  // const isReady = 
 
   const checkAuth = async () => {
     try {
-      const {data} = await authApi.getMe();
+      const { data } = await userApi.getMe();
       dispatch(setUserData(data));
       // history.replace('/home');
     } catch (err) {
@@ -32,6 +33,7 @@ function App() {
   useEffect(() => {
     checkAuth();
   }, []);
+
   return (
     <div className="App">
       <Switch>

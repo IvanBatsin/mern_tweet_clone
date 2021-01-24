@@ -1,6 +1,7 @@
 import produce, { Draft } from 'immer';
-import { TagsState, LoadingState } from './state';
+import { TagsState } from './state';
 import { TagsActionType, TagsAction } from './actionCreators';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 const initialTweetsState: TagsState = {
   items: [],

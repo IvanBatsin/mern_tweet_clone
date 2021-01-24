@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserStatus } from '../../../store/ducks/user/selector';
 import { fetchSingUp } from '../../../store/ducks/user/actionCreators';
-import { LoadingState } from '../../../store/ducks/tweets/contracts/state';
+import { LoadingState } from '../../../interfaces/LoadingState';
  
 // React Hook From
 import { useForm, Controller } from "react-hook-form";

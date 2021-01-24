@@ -1,8 +1,9 @@
 import { Action } from 'redux';
-import { IUser, IUserState } from './state';
-import { LoadingState } from '../tweets/contracts/state';
+import { IUserState } from './state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 import { IFormInputs } from '../../../pages/singIn/components/LoginModal';
 import { IFormInputsRegister } from '../../../pages/singIn/components/RegisterPopup';
+import { IUser } from '../../../interfaces/User';
 
 export enum UserActionTypes {
   SET_USER_DATA = 'user/SET_USER_DATA',

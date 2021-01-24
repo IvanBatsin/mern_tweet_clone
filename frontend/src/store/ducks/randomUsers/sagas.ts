@@ -1,7 +1,7 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
-import { authApi } from '../../../services/api/authApi';
+import { userApi } from '../../../services/api/userApi';
 import { setRandomUsers,  } from './actionCreators';
-import { LoadingState } from '../tweets/contracts/state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 export function* fetchRandomUsers(){
   // try {

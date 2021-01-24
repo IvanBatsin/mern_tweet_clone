@@ -1,8 +1,7 @@
-import {RootStore} from '../../rootStore';
+import { RootStore } from '../../rootStore';
 import { createSelector } from 'reselect'
-import { LoadingState, TagsState } from './state';
-
-// selectors чтобы удобнее вытаскивать данные, котрые нужны
+import { TagsState } from './state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 export const selectTags = (state: RootStore): TagsState => state.themes;
 

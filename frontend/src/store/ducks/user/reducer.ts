@@ -1,7 +1,7 @@
 import produce, { Draft } from 'immer';
 import { UserAction, UserActionTypes } from './actionCreators';
 import { IUserState } from './state';
-import { LoadingState } from '../tweets/contracts/state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 const initalState: IUserState = {
   data: undefined,

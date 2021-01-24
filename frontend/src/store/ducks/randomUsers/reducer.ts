@@ -1,7 +1,7 @@
 import produce, { Draft } from 'immer';
 import { IFetchRandomUsers, ISetRandomUsers, RandomUserAction, fetchSingIn, setRandomUsers, RandomUsersActionTypes } from './actionCreators';
 import { IRandomUsersState } from './state';
-import { LoadingState } from '../tweets/contracts/state';
+import { LoadingState } from '../../../interfaces/LoadingState';
 
 const initalState: IRandomUsersState = {
   users: [],

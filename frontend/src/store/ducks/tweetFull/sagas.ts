@@ -1,8 +1,8 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { TweetsApi } from '../../../services/api/tweetsApi';
-import { Tweet } from '../tweets/contracts/state';
 import { setFullTweet, setFullTweetLoadingStatus, FullTweetActionType, FetchFullTweetActionInterface } from './actionCreators';
-import { LoadingState } from './state';
+import { LoadingState } from '../../../interfaces/LoadingState';
+import { Tweet } from '../../../interfaces/Tweet';
 
 function* fetchFullTweetRequest({payload: tweetId}: FetchFullTweetActionInterface) {
   try {

@@ -1,5 +1,7 @@
 import { Action } from "redux";
-import { LoadingState, FullTweetState } from "./state";
+import { FullTweetState } from "./state";
+import { LoadingState } from '../../../interfaces/LoadingState';
+
 
 export enum FullTweetActionType {
   SET_FULL_TWEET = 'fullTweet/SET_FULL_TWEET',

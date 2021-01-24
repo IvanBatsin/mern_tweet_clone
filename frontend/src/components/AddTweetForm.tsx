@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useHomeStyles } from '../pages/home/homeClasses';
 import { fetchAddTweet } from '../store/ducks/tweets/actionCreators';
 import { selectAddFormState } from '../store/ducks/tweets/selectors';
-import { AddFromLoading } from '../store/ducks/tweets/contracts/state';
+import { AddFromLoading } from '../store/ducks/tweets/state';
 
 // UI
 import Alert from '@material-ui/lab/Alert';
