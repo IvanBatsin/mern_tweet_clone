@@ -12,12 +12,17 @@ class UploadFile {
           });
           return;
         }
-      }).end(req.file.buffer);
 
-      res.status(201).json({
-        status: 'success',
-        message: 'All good'
-      });
+        res.status(201).json({
+          status: 'success',
+          data: {
+            url: result.url,
+            size: Math.round(result.bytes / 1024),
+            height: result.height,
+            width: result.width
+          }
+        });
+      }).end(req.file.buffer);
     } catch (error) {
       console.log(error);
       res.status(500).json({

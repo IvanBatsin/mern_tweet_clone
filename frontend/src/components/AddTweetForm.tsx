@@ -4,6 +4,7 @@ import { useHomeStyles } from '../pages/home/homeClasses';
 import { fetchAddTweet } from '../store/ducks/tweets/actionCreators';
 import { selectAddFormState } from '../store/ducks/tweets/selectors';
 import { AddFromLoading } from '../store/ducks/tweets/state';
+import { UploadImages } from './UploadImages';
 
 // UI
 import Alert from '@material-ui/lab/Alert';
@@ -17,10 +18,16 @@ import Button from '@material-ui/core/Button/Button';
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import { useDispatch, useSelector } from 'react-redux';
+import { uploadPhotos } from '../utils/uploadImages';
 
 interface AddTweetFormProps {
   classes: ReturnType<typeof useHomeStyles>,
   maxRows?: number
+}
+
+export interface ImageObject {
+  file: File,
+  blobUrl: string
 }
 
 const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetFormProps): React.ReactElement => {
@@ -28,6 +35,7 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
   let textLimitPercent = Math.round((text.length / 280) * 100);
   const MAX_LENGTH = 280;
   let textCount = MAX_LENGTH - text.length;
+  const [images, setImages] = React.useState<ImageObject[]>([]);
   const dispatch = useDispatch();
   const addFormState = useSelector(selectAddFormState);
 
@@ -37,8 +45,14 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
     }
   }
 
-  const handleClickAddTweet = (): void => {
-    dispatch(fetchAddTweet(text));
+  const handleClickAddTweet = async (): Promise<void> => {
+    const result = [];
+    for(let i=0; i<images.length; i++){
+      const file = images[i].file;
+      const { data: {url} } = await uploadPhotos(file);
+      result.push(url);
+    }
+    dispatch(fetchAddTweet({text, images: result}));
     setText('');
   }
   return (
@@ -60,12 +74,10 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
       </div>
       <div className={classes.addFormBottom}>
         <div className={classNames(classes.twitterItemFooter, classes.addFormBottomActions)}>
-          <IconButton color="primary">
-            <ImageOutlinedIcon style={{fontSize: 26}}/>
-          </IconButton>
-          <IconButton color="primary">
+          {/* <IconButton color="primary">
             <EmojiEmotionsOutlinedIcon style={{fontSize: 26}}></EmojiEmotionsOutlinedIcon>
-          </IconButton>
+          </IconButton> */}
+          <UploadImages images={images} onImageChange={setImages}/>
         </div>
         <div className={classes.addFormBottomRight}>
           {text.length ?

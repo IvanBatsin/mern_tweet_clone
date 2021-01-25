@@ -37,6 +37,6 @@ app.post('/tweets', tweetValidation, passport.authenticate('jwt', {session: fals
 app.delete('/tweets/:id', passport.authenticate('jwt', {session: false}), idAndUser, tweetsController.delete);
 app.patch('/tweets/:id', tweetValidation, passport.authenticate('jwt', {session: false}), idAndUser, tweetsController.update);
 // Upload file
-app.post('/upload', upload.single('avatar'), passport.authenticate('jwt', {session: false}), fileUploadController.upload);
+app.post('/upload', upload.single('image'), passport.authenticate('jwt', {session: false}), fileUploadController.upload);
 
 app.listen(Number(process.env.PORT) || 5000, () => console.log('we on air'));

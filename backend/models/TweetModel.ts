@@ -3,6 +3,7 @@ import { Schema, model, Document } from 'mongoose';
 interface ITweetModel {
   text: string,
   user: Schema.Types.ObjectId,
+  images?: string[]
   // likes: number,
   // retweets: number,
   // replies: number
@@ -19,6 +20,9 @@ const tweetSchema = new Schema<TweetModelDocument>({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  images: [{
+    type: String,
+  }],
   likes: {
     type: Number,
     required: true,

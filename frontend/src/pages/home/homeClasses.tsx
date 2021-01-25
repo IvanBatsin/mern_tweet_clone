@@ -4,7 +4,7 @@ import { grey } from '@material-ui/core/colors';
 
 export const useHomeStyles = makeStyles((theme) => ({
   wrapper: {
-    heigth: '100vh',
+    height: '100vh',
   },
   menuLogo: {
     fontSize: 38,
@@ -204,5 +204,31 @@ export const useHomeStyles = makeStyles((theme) => ({
     left: '50%',
     top: '50%',
     transform: 'translate(-50%, -50%)'
+  },
+  imagesList: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 20,
+    flexWrap: 'wrap'
+  },
+  imagesListItem: {
+    width: 50,
+    height: 50,
+    borderRadius: 6,
+    overflow: 'hidden',
+    marginRight: 10,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    marginBottom: 10,
+    '& svg path': {
+      fill: 'white'
+    }
+  },
+  imagesListItemRemove: {
+    position: 'relative',
+    top: -5,
+    right: -33,
+    padding: '0 !important',
+    backgroundColor: 'rgba(64, 64, 64, .5) !important'
   }
 }));

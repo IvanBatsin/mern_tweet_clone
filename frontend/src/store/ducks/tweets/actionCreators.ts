@@ -12,6 +12,11 @@ export enum TweetsActionType {
   SET_ADD_FORM_STATE = 'tweets/SET_ADD_FORM_STATE',
 }
 
+interface AddTweetPayload {
+  text: string,
+  images: string[]
+}
+
 // Interfaces
 export interface SetTweetsActionInterface extends Action<TweetsActionType> {
   type: TweetsActionType.SET_TWEETS,
@@ -26,7 +31,7 @@ export interface SetTweetsLoadingInterface extends Action<TweetsActionType> {
 }
 export interface FetchAddTweetInterface extends Action<TweetsActionType> {
   type: TweetsActionType.FETCH_ADD_TWEET,
-  payload: string
+  payload: AddTweetPayload
 }
 export interface AddTweetInterface extends Action<TweetsActionType> {
   type: TweetsActionType.ADD_TWEET,
@@ -51,7 +56,7 @@ export const setTweetsLoadingStatus = (payload: LoadingState): SetTweetsLoadingI
   type: TweetsActionType.SET_LOADING_STATE,
   payload
 });
-export const fetchAddTweet = (payload: string): FetchAddTweetInterface => ({
+export const fetchAddTweet = (payload: AddTweetPayload): FetchAddTweetInterface => ({
   type: TweetsActionType.FETCH_ADD_TWEET,
   payload
 });

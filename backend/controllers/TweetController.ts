@@ -2,6 +2,7 @@ import express from 'express';
 import { validationResult } from 'express-validator/src/validation-result';
 import { TweetModel } from '../models/TweetModel';
 import { UserModelDocument } from '../models/UserModel';
+import { Types } from 'mongoose';
 
 class TweetsController {
   async index(req: express.Request, res: express.Response): Promise<void> {
@@ -23,7 +24,7 @@ class TweetsController {
     try {
       const id = req.params.id;
 
-      if (!id){
+      if (!id && !Types.ObjectId.isValid(id)){
         res.status(400).send();
         return;
       }
@@ -54,7 +55,7 @@ class TweetsController {
         return;
       }
 
-      const {text} = req.body;
+      const { text, images} = req.body;
       const user = req.user as UserModelDocument;
 
       if (!user){
@@ -62,7 +63,7 @@ class TweetsController {
         return;
       }
       
-      const tweet = await TweetModel.create({text, user: user._id});
+      const tweet = await TweetModel.create({text, user: user._id, images});
       res.status(201).json({
         status: 'success',
         data: await tweet.populate('user').execPopulate()
@@ -79,6 +80,11 @@ class TweetsController {
     try {
       const id = req.params.id;
       const user = req.user as UserModelDocument;
+
+      if (!Types.ObjectId.isValid(id)) {
+        res.status(404).send();
+        return;
+      }
 
       const tweet = await TweetModel.findById(id).exec();
       if (tweet && tweet.user.toString() === user._id.toString()){
@@ -102,6 +108,11 @@ class TweetsController {
       const { text } = req.body;
       const user = req.user as UserModelDocument;
 
+      if (!Types.ObjectId.isValid(id)) {
+        res.status(404).send();
+        return;
+      }
+
       const tweet = await TweetModel.findById(id).exec();
       if (tweet && tweet.user.toString() === user._id.toString()){
         tweet.text = text;
@@ -120,5 +131,4 @@ class TweetsController {
   }
 };
 
-const tweetsController = new TweetsController();
-export { tweetsController };
+export const tweetsController = new TweetsController();

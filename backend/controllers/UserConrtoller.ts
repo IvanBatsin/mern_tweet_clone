@@ -118,6 +118,8 @@ class UserController {
           status: 'success',
           data: {
             ...req.user,
+            password: undefined,
+            confirmHash: undefined,
             token: jwt.sign({data: req.user}, process.env.JWT_SECRET_KEY || 'LOLIPOP', {expiresIn: '30d'})
           }
         });
@@ -135,7 +137,11 @@ class UserController {
       if (req.user){
         res.json({
           status: 'success',
-          data: req.user
+          data: {
+            ...req.user,
+            password: undefined,
+            confirmHash: undefined
+          }
         });
       }
     } catch (error) {

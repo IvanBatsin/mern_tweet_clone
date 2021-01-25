@@ -30,8 +30,8 @@ export function* fetchGetMe() {
   try {
     yield put(setUserLoading(LoadingState.LOADING));
     const data = yield call(userApi.getMe);
-    yield put(setUserData(data.data));
     yield put(setUserLoading(LoadingState.LOADED));
+    yield put(setUserData(data.data));
   } catch (error) {
     yield put(setUserLoading(LoadingState.ERROR));
   }

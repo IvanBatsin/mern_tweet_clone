@@ -8,15 +8,15 @@ import { useHomeStyles } from './pages/home/homeClasses';
 
 // Pages
 import { Home, SingIn } from './pages/index';
-import { selectIsAuth, selectUserLoadingStatus } from './store/ducks/user/selector';
+import { selectIsAuth, selectUserConfirm, selectUserLoadingStatus } from './store/ducks/user/selector';
 
 function App() {
+  const classes = useHomeStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const userLoadingState = useSelector(selectUserLoadingStatus);
   const isReady = userLoadingState !== LoadingState.NEVER && userLoadingState !== LoadingState.LOADING;
-  const classes = useHomeStyles();
 
   useEffect(() => {
     if (isAuth && isReady && userLoadingState === LoadingState.LOADED){
@@ -33,7 +33,7 @@ function App() {
   if (!isReady) return <div className={classes.centerdeLoading}><CircularProgress/></div>
 
   return (
-    <div className="App">
+    <div className="App" style={{minHeight: '100vh'}}>
       <Switch>
         <Route path="/signin" exact component={SingIn}></Route>
         <Route path="/home" component={Home}></Route>
