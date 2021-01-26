@@ -23,6 +23,7 @@
     "date-fns": "^2.16.1",
     "immer": "^8.0.0",
     "json-server": "^0.16.3",
+    "medium-zoom": "^1.0.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.12.1",

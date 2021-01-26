@@ -1,9 +1,9 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { useHomeStyles } from '../pages/home/homeClasses';
 import { ImageObject } from './AddTweetForm';
+import { TweetImagesList } from './TweetImagesList';
 
 interface UploadImageProps {
   images: ImageObject[],
@@ -40,11 +40,11 @@ export const UploadImages: React.FC<UploadImageProps> = ({images, onImageChange}
 
   React.useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.addEventListener('change', handleInputFileChange);
+      inputRef.current.addEventListener('input', handleInputFileChange);
     }
 
     return () => {
-      inputRef.current?.removeEventListener('change', handleInputFileChange);
+      inputRef.current?.removeEventListener('input', handleInputFileChange);
     }
   }, []);
 
@@ -56,15 +56,7 @@ export const UploadImages: React.FC<UploadImageProps> = ({images, onImageChange}
           <ImageOutlinedIcon style={{fontSize: 26}}/>
         </IconButton>
       </label>
-      <div className={classes.imagesList}>
-        {images.map((obj, index) => 
-          <div key={index} className={classes.imagesListItem} style={{backgroundImage:`url(${obj.blobUrl})`}}>
-            <IconButton className={classes.imagesListItemRemove} onClick={() => removeImage(obj.blobUrl)} color="primary">
-              <HighlightOffIcon style={{fontSize: 18}}/>
-            </IconButton>
-          </div>
-        )}
-      </div>
+      <TweetImagesList classes={classes} images={images.map(obj => obj.blobUrl)} removeImage={removeImage}/>
     </div>
   )
 }

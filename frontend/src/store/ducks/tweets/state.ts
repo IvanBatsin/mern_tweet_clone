@@ -1,7 +1,7 @@
 import { LoadingState } from '../../../interfaces/LoadingState';
 import { Tweet } from '../../../interfaces/Tweet';
 
-export enum AddFromLoading {
+export enum AddFormLoading {
   LOADING = 'LOADING',
   ERROR = 'ERROR',
   NEVER = 'NEVER'
@@ -10,5 +10,5 @@ export enum AddFromLoading {
 export interface TweetsState {
   items: Tweet[],
   loadingState: LoadingState,
-  addFormLoadingState: AddFromLoading
+  AddFormLoadingState: AddFormLoading
 }

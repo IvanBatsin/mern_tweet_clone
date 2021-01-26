@@ -55,7 +55,7 @@ class TweetsController {
         return;
       }
 
-      const { text, images} = req.body;
+      const { text, images } = req.body;
       const user = req.user as UserModelDocument;
 
       if (!user){

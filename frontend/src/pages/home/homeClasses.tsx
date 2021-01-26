@@ -12,6 +12,11 @@ export const useHomeStyles = makeStyles((theme) => ({
     position: 'relative',
     left: -15
   },
+  sideMenuBlock: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
   sideMenuList: {
     listStyle: 'none',
     padding: 0,
@@ -55,6 +60,30 @@ export const useHomeStyles = makeStyles((theme) => ({
     width: 230,
     marginTop: 30
   },
+  sideMenuUserInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 5,
+    alignItems: 'center',
+    borderRadius: 20,
+    transition: '.4s',
+
+    '&:hover': {
+      backgroundColor: 'rgba(29, 161, 242, .1)',
+      cursor: 'pointer'
+    },
+
+    '@media screen and (max-width: 960px)': {
+      '&': {
+        display: 'none'
+      }
+    }
+  },
+  sideMenuUserInfoUser: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '3px 10px'
+  },
   twitterWrapper: {
     borderRadius: 0,
     height: '100%',
@@ -72,6 +101,7 @@ export const useHomeStyles = makeStyles((theme) => ({
     borderTop: 'none',
     borderRadius: 0,
     padding: '10px 15px',
+    position: 'relative',
 
     '& h6': {
       fontWeight: 800
@@ -88,7 +118,7 @@ export const useHomeStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     maxWidth: 450,
     position: 'relative',
-    left: -15
+    margin: 'auto'
   },
   twitterItem: {
     cursor: 'pointer',
@@ -217,9 +247,12 @@ export const useHomeStyles = makeStyles((theme) => ({
     borderRadius: 6,
     overflow: 'hidden',
     marginRight: 10,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
     marginBottom: 10,
+    '& img': {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover'
+    },
     '& svg path': {
       fill: 'white'
     }
@@ -230,5 +263,10 @@ export const useHomeStyles = makeStyles((theme) => ({
     right: -33,
     padding: '0 !important',
     backgroundColor: 'rgba(64, 64, 64, .5) !important'
+  },
+  fullTweetLink: {
+    position: 'absolute',
+    top: 15,
+    left: 60,
   }
 }));

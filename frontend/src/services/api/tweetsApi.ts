@@ -16,7 +16,10 @@ export const TweetsApi = {
     return data.data;
   },
   async addTweet(payload: {text: string, images: string[]}): Promise<Tweet> {
-    const {data} = await axios.post<IResponse<Tweet>>('/tweets', {text: payload});
+    const {data} = await axios.post<IResponse<Tweet>>('/tweets', payload);
     return  data.data;
+  },
+  async deleteTweet(id: string): Promise<void> {
+    await axios.delete<IResponse<Tweet>>(`/tweets/${id}`);
   }
 }

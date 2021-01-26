@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { TweetsApi } from '../../../services/api/tweetsApi';
-import { FetchAddTweetInterface, setTweets, setTweetsLoadingStatus, TweetsActionType, addTweet, setAddFormState } from './actionCreators';
-import { AddFromLoading } from './state';
+import { FetchAddTweetInterface, setTweets, setTweetsLoadingStatus, TweetsActionType, addTweet, setAddFormState, DeleteTweetInterface, deleteTweet } from './actionCreators';
+import { AddFormLoading } from './state';
 import { LoadingState } from '../../../interfaces/LoadingState';
 
 function* fetchTweetsRequest() {
@@ -18,11 +18,20 @@ function* fetchAddTweetRequest({payload}: FetchAddTweetInterface) {
     const item = yield call(TweetsApi.addTweet, payload);
     yield put(addTweet(item));
   } catch (error) {
-    yield put(setAddFormState(AddFromLoading.ERROR))
+    yield put(setAddFormState(AddFormLoading.ERROR));
+  }
+}
+
+function* fetchDeleteTweetRequest({payload}: DeleteTweetInterface) {
+  try {
+    yield call(TweetsApi.deleteTweet, payload);
+  } catch (error) {
+    console.log('Error delete tweet')
   }
 }
 
 export function* tweetsSaga() {
-  yield takeEvery(TweetsActionType.FETCH_TWEETS, fetchTweetsRequest)
-  yield takeEvery(TweetsActionType.FETCH_ADD_TWEET, fetchAddTweetRequest)
+  yield takeEvery(TweetsActionType.FETCH_TWEETS, fetchTweetsRequest);
+  yield takeEvery(TweetsActionType.FETCH_ADD_TWEET, fetchAddTweetRequest);
+  yield takeEvery(TweetsActionType.DELETE_TWEET, fetchDeleteTweetRequest);
 }

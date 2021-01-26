@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useHomeStyles } from '../pages/home/homeClasses';
-import { fetchAddTweet } from '../store/ducks/tweets/actionCreators';
+import { fetchAddTweet, setAddFormState } from '../store/ducks/tweets/actionCreators';
 import { selectAddFormState } from '../store/ducks/tweets/selectors';
-import { AddFromLoading } from '../store/ducks/tweets/state';
+import { AddFormLoading } from '../store/ducks/tweets/state';
 import { UploadImages } from './UploadImages';
 
 // UI
@@ -47,6 +47,7 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
 
   const handleClickAddTweet = async (): Promise<void> => {
     const result = [];
+    dispatch(setAddFormState(AddFormLoading.LOADING));
     for(let i=0; i<images.length; i++){
       const file = images[i].file;
       const { data: {url} } = await uploadPhotos(file);
@@ -54,6 +55,7 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
     }
     dispatch(fetchAddTweet({text, images: result}));
     setText('');
+    setImages([]);
   }
   return (
     <div>
@@ -73,10 +75,7 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
         />
       </div>
       <div className={classes.addFormBottom}>
-        <div className={classNames(classes.twitterItemFooter, classes.addFormBottomActions)}>
-          {/* <IconButton color="primary">
-            <EmojiEmotionsOutlinedIcon style={{fontSize: 26}}></EmojiEmotionsOutlinedIcon>
-          </IconButton> */}
+        <div className={classNames(classes.addFormBottomActions)}>
           <UploadImages images={images} onImageChange={setImages}/>
         </div>
         <div className={classes.addFormBottomRight}>
@@ -102,14 +101,14 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
             : null}
           <Button 
             onClick={handleClickAddTweet}
-            disabled={addFormState === AddFromLoading.LOADING || !text || text.length >= 280} 
+            disabled={addFormState === AddFormLoading.LOADING || !text || text.length >= 280} 
             color="primary" 
             variant="contained">
-            {addFormState === AddFromLoading.LOADING ? <CircularProgress size={16} color="secondary"></CircularProgress> : 'Твитнуть'}
+            {addFormState === AddFormLoading.LOADING ? <CircularProgress size={16} color="secondary"></CircularProgress> : 'Твитнуть'}
           </Button>
         </div>
       </div>
-      {addFormState === AddFromLoading.ERROR && <Alert severity="error">Ошибка при добавление твитта</Alert>}
+      {addFormState === AddFormLoading.ERROR && <Alert severity="error">Ошибка при добавление твитта</Alert>}
     </div>
   )
 }

@@ -14,12 +14,15 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useHomeStyles } from './homeClasses';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Route } from 'react-router-dom';
+import { UserInfoBlock } from '../../components/UserInfoBlock';
+import { selectUserData } from '../../store/ducks/user/selector';
 
 const Home: React.FC = (): React.ReactElement => {
   const classes = useHomeStyles();
   const dispatch = useDispatch();
   const tweets = useSelector(selectTweetsItems);
   let isLoading = useSelector(selectTweetsIsLoading);
+  const currentUser = useSelector(selectUserData);
 
   useEffect(() => {
     // handleFetchTweets();
@@ -30,10 +33,11 @@ const Home: React.FC = (): React.ReactElement => {
   return (
     <Container className={classes.wrapper} maxWidth="lg">
       <Grid container spacing={3}>
-        <Grid item md={3} sm={1}>
+        <Grid item md={3} sm={1} className={classes.sideMenuBlock}>
           <SideMenu classes={classes}></SideMenu>
+          {currentUser && <UserInfoBlock classes={classes} user={currentUser}/>}
         </Grid>
-        <Grid item sm={8} md={6}>
+        <Grid item sm={8} md={6} style={{minHeight: '100vh'}}>
           <Paper className={classes.twitterWrapper} style={{height: '100%'}} variant="outlined">
             <Paper className={classes.twitterWrapperHeader} variant="outlined">
               <Route path="/home/:any">
@@ -43,7 +47,7 @@ const Home: React.FC = (): React.ReactElement => {
                 <Typography variant="h6">Главная</Typography>
               </Route>
               <Route path="/home/tweet">
-                <Typography variant="h6">Твитнуть</Typography>
+                <Typography className={classes.fullTweetLink} variant="h6">Твитнуть</Typography>
               </Route>
               <Route exact path={['/home', '/home/search']}>
                 <Paper>
@@ -58,7 +62,15 @@ const Home: React.FC = (): React.ReactElement => {
               {isLoading && <div className={classes.tweetsCentered}><CircularProgress/></div>}
               {(!isLoading && tweets.length > 0) ? 
               tweets.map(item => {
-                return <Tweet key={item._id} createdAt={item.createdAt} _id={item._id} text={item.text} user={item.user} classes={classes}></Tweet>
+                return <Tweet 
+                          key={item._id} 
+                          images={item.images} 
+                          createdAt={item.createdAt} 
+                          _id={item._id} 
+                          text={item.text} 
+                          tweetUser={item.user} 
+                          classes={classes}
+                          currentUser={currentUser!}/>
               }) : null}
             </Route>
             <Route path='/home/tweet/:id' exact component={FullTweet}>

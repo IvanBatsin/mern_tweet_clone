@@ -1,5 +1,5 @@
 import produce, { Draft } from 'immer';
-import { TweetsState, AddFromLoading } from './state';
+import { TweetsState, AddFormLoading } from './state';
 import { TweetsActionType } from './actionCreators';
 import { TweetsAction } from './actionCreators';
 import { LoadingState } from '../../../interfaces/LoadingState';
@@ -7,7 +7,7 @@ import { LoadingState } from '../../../interfaces/LoadingState';
 const initialTweetsState: TweetsState = {
   items: [],
   loadingState: LoadingState.NEVER,
-  addFormLoadingState: AddFromLoading.NEVER
+  AddFormLoadingState: AddFormLoading.NEVER
 }
 
 export const tweetsReducer = produce((draft: Draft<TweetsState>, action: TweetsAction) => {
@@ -28,16 +28,20 @@ export const tweetsReducer = produce((draft: Draft<TweetsState>, action: TweetsA
       break;
     }
     case TweetsActionType.FETCH_ADD_TWEET: {
-      draft.addFormLoadingState = AddFromLoading.LOADING;
+      draft.AddFormLoadingState = AddFormLoading.LOADING;
       break;
     }
     case TweetsActionType.ADD_TWEET: {
       draft.items.splice(0, 0, action.payload);
-      draft.addFormLoadingState = AddFromLoading.NEVER;
+      draft.AddFormLoadingState = AddFormLoading.NEVER;
+      break;
+    }
+    case TweetsActionType.DELETE_TWEET: {
+      draft.items = draft.items.filter(item => item._id !== action.payload)
       break;
     }
     case TweetsActionType.SET_ADD_FORM_STATE: {
-      draft.addFormLoadingState = action.payload;
+      draft.AddFormLoadingState = action.payload;
       break;
     }
   }
