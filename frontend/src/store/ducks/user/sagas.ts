@@ -7,7 +7,7 @@ export function* fetchSingInRequest({payload}: IFetchSingInUser){
   try {
     yield put(setUserLoading(LoadingState.LOADING));
     const data = yield call(userApi.singIn, payload);
-    yield put(setUserData(data));
+    yield put(setUserData(data.data));
     window.localStorage.setItem('token', data.data.token)
   } catch (err) {
     console.log(err);

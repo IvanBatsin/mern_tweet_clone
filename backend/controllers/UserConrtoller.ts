@@ -102,7 +102,8 @@ class UserController {
         return ;
       }
 
-      res.json({status: 'success'});
+      // res.json({status: 'success'});
+      res.redirect('http://localhost:3000');
     } catch (error) {
       res.status(500).json({
         status: 'error',

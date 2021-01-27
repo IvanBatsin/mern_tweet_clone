@@ -15,11 +15,13 @@ export const tagsReducer = produce((draft: Draft<TagsState>, action: TagsAction)
       draft.loadingState = LoadingState.LOADED;
       break;
     }
+
     case TagsActionType.FETCH_TAGS: {
       draft.items = [];
       draft.loadingState = LoadingState.LOADING;
       break;
     }
+    
     case TagsActionType.SET_LOADING_STATE: {
       draft.loadingState = action.payload;
       break;

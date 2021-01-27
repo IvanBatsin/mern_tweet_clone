@@ -11,6 +11,7 @@ export enum TweetsActionType {
   ADD_TWEET = 'tweets/ADD_TWEET',
   DELETE_TWEET = 'tweets/DELETE_TWEET',
   SET_ADD_FORM_STATE = 'tweets/SET_ADD_FORM_STATE',
+  FETCH_USER_TWEETS = 'tweets/FETCH_USER_TWEETS'
 }
 
 interface AddTweetPayload {
@@ -46,6 +47,10 @@ export interface SetAddFormStateInterface extends Action<TweetsActionType> {
   type: TweetsActionType.SET_ADD_FORM_STATE,
   payload: AddFormLoading
 }
+export interface FetchUserTweets extends Action<TweetsActionType> {
+  type: TweetsActionType.FETCH_USER_TWEETS,
+  payload: string
+}
 
 
 
@@ -77,6 +82,10 @@ export const setAddFormState = (payload: AddFormLoading): SetAddFormStateInterfa
   type: TweetsActionType.SET_ADD_FORM_STATE,
   payload
 });
+export const fetchUserTweets = (payload: string): FetchUserTweets => ({
+  type: TweetsActionType.FETCH_USER_TWEETS,
+  payload
+});
 
 
 
@@ -87,4 +96,5 @@ export type TweetsAction =
   FetchAddTweetInterface      |
   AddTweetInterface           |
   SetAddFormStateInterface    |
-  DeleteTweetInterface; 
+  DeleteTweetInterface        |
+  FetchUserTweets; 

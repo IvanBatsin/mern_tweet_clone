@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { TweetsApi } from '../../../services/api/tweetsApi';
-import { FetchAddTweetInterface, setTweets, setTweetsLoadingStatus, TweetsActionType, addTweet, setAddFormState, DeleteTweetInterface, deleteTweet } from './actionCreators';
+import { FetchAddTweetInterface, setTweets, setTweetsLoadingStatus, TweetsActionType, addTweet, setAddFormState, DeleteTweetInterface, deleteTweet, FetchUserTweets } from './actionCreators';
 import { AddFormLoading } from './state';
 import { LoadingState } from '../../../interfaces/LoadingState';
 
@@ -30,8 +30,20 @@ function* fetchDeleteTweetRequest({payload}: DeleteTweetInterface) {
   }
 }
 
+function* fetchUserTweets({payload}: FetchUserTweets) {
+  try {
+    yield put(setTweetsLoadingStatus(LoadingState.LOADING));
+    const items = yield call(TweetsApi.fetchUserTweets, payload);
+    yield put(setTweets(items));
+  } catch (error) {
+    console.log(error);
+    yield put(setTweetsLoadingStatus(LoadingState.ERROR));
+  }
+}
+
 export function* tweetsSaga() {
   yield takeEvery(TweetsActionType.FETCH_TWEETS, fetchTweetsRequest);
   yield takeEvery(TweetsActionType.FETCH_ADD_TWEET, fetchAddTweetRequest);
   yield takeEvery(TweetsActionType.DELETE_TWEET, fetchDeleteTweetRequest);
+  yield takeEvery(TweetsActionType.FETCH_USER_TWEETS, fetchUserTweets);
 }

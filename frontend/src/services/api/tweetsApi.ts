@@ -12,7 +12,7 @@ export const TweetsApi = {
     return data.data;
   },
   async fetchItemTweet(id: string): Promise<Tweet> {
-    const {data} = await axios.get<IResponse<Tweet>>(`/tweets/${id}`);
+    const { data } = await axios.get<IResponse<Tweet>>(`/tweets/${id}`);
     return data.data;
   },
   async addTweet(payload: {text: string, images: string[]}): Promise<Tweet> {
@@ -21,5 +21,9 @@ export const TweetsApi = {
   },
   async deleteTweet(id: string): Promise<void> {
     await axios.delete<IResponse<Tweet>>(`/tweets/${id}`);
+  },
+  async fetchUserTweets(payload: string): Promise<Tweet[]> {
+    const {data} = await axios.get<IResponse<Tweet[]>>(`/tweets/user/${payload}`);
+    return data.data;
   }
 }

@@ -16,6 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Route } from 'react-router-dom';
 import { UserInfoBlock } from '../../components/UserInfoBlock';
 import { selectUserData } from '../../store/ducks/user/selector';
+import { UserProfile } from '../user/UserProfile';
 
 const Home: React.FC = (): React.ReactElement => {
   const classes = useHomeStyles();
@@ -49,6 +50,9 @@ const Home: React.FC = (): React.ReactElement => {
               <Route path="/home/tweet">
                 <Typography className={classes.fullTweetLink} variant="h6">Твитнуть</Typography>
               </Route>
+              <Route path="/home/users/:any">
+                <Typography className={classes.fullTweetLink} variant="h6">Профиль</Typography>
+              </Route>
               <Route exact path={['/home', '/home/search']}>
                 <Paper>
                   <div className={classes.addForm}>
@@ -75,6 +79,9 @@ const Home: React.FC = (): React.ReactElement => {
             </Route>
             <Route path='/home/tweet/:id' exact component={FullTweet}>
               <FullTweet></FullTweet>
+            </Route>
+            <Route path='/home/users/:id' exact>
+              <UserProfile user={currentUser!}/>
             </Route>
           </Paper>
         </Grid>

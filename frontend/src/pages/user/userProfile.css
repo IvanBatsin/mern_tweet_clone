@@ -1,0 +1,50 @@
+.userProfileHeader {
+  height: 200px;
+  background-color: #949494;
+}
+.userProfileInfo {
+  padding: 20px;
+  padding-top: 0;
+  margin-top: -60px;
+}
+.userProfileInfo .MuiAvatar-root {
+  width: 140px !important;
+  height: 140px !important;
+  border: 5px solid white !important;
+}
+.userProfilFullName {
+  margin: 0;
+  font-weight: 900;
+}
+.userProfilUserName {
+  font-size: 16px;
+  color: rgb(172, 172, 172);
+}
+.userProfilDetails {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.userProfilDetails li {
+  margin-right: 30px;
+  color: #949494;
+  display: flex;
+  align-items: center;
+}
+.link {
+  color: #1da1f2;
+  text-decoration: none;
+}
+.userTweets {
+  border-top: 1px solid rgba(0, 0, 0, .1);
+}
+.MuiTabs-root button {
+  text-transform: none;
+  min-width: 150px;
+}
+.MuiTab-textColorPrimary.Mui-selected {
+  font-weight: 900;
+  color: #1da1f2;
+}

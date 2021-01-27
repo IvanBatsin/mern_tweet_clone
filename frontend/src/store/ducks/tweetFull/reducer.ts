@@ -15,11 +15,13 @@ export const fullTweetReducer = produce((draft: Draft<FullTweetState>, action: F
       draft.loadingState = LoadingState.LOADED;
       break;
     }
+
     case FullTweetActionType.FETCH_FULL_TWEET: {
       draft.data = undefined;
       draft.loadingState = LoadingState.LOADING;
       break;
     }
+    
     case FullTweetActionType.SET_LOADING_STATE: {
       draft.loadingState = action.payload;
       break;

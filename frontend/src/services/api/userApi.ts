@@ -24,7 +24,7 @@ interface IResponseDataSingUp {
 
 interface IAuthResponse {
   status: string,
-  data?: IResponseDataSingIn | IResponseDataSingUp
+  data: IResponseDataSingIn | IResponseDataSingUp
 }
 
 interface IGetMeResponse {

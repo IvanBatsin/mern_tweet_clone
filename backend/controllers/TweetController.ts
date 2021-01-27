@@ -47,6 +47,30 @@ class TweetsController {
     }
   }
 
+  async getTweetsById(req: express.Request, res: express.Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      console.log(id)
+
+      if (!id || !Types.ObjectId.isValid(id)) {
+        res.status(404).send();
+        return;
+      }
+
+      const tweets = await TweetModel.find({user: id}).sort({createdAt: -1}).exec();
+
+      res.json({
+        status: 'success',
+        data: tweets
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        message: 'Server error'
+      });
+    }
+  }
+
   async create(req: express.Request, res: express.Response): Promise<void> {
     try {
       const errors = validationResult(req);

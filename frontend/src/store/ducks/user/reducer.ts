@@ -22,6 +22,12 @@ export const userReducer = produce((draft: Draft<IUserState>, action: UserAction
       break;
     }
 
+    case UserActionTypes.USER_SIGNOUT: {
+      draft.data = undefined;
+      draft.status = LoadingState.LOADED;
+      break;
+    }
+
     default: break;
   }
 }, initalState);

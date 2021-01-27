@@ -2,7 +2,8 @@ import { Schema, model, Document } from 'mongoose';
 
 interface ITweetModel {
   text: string,
-  user: Schema.Types.ObjectId,
+  user: string,
+  // user: Schema.Types.ObjectId,
   images?: string[]
   // likes: number,
   // retweets: number,

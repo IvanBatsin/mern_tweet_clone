@@ -29,11 +29,10 @@ interface TweetProps {
   currentUser: IUser
 }
 
-const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, images, currentUser}: TweetProps): React.ReactElement => {
+const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, images, currentUser}: TweetProps)=> {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const history = useHistory();
-  // const currentUser = useSelector(selectUserData);
   const dispatch = useDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
@@ -61,6 +60,8 @@ const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, 
       dispatch(deleteTweet(_id));
     }
   }
+
+  if (!currentUser) return null;
 
   return (
     <div onClick={handleTweetClick} className={classes.tweetWrapper}>

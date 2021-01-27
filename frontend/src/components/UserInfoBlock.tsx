@@ -7,14 +7,18 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button/Button';
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { userSignOut } from '../store/ducks/user/actionCreators';
 
 interface UserInfoBlock {
   user: IUser,
   classes: ReturnType<typeof useHomeStyles>
 }
 
-export const UserInfoBlock: React.FC<UserInfoBlock> = ({classes, user}: UserInfoBlock): React.ReactElement => {
+export const UserInfoBlock: React.FC<UserInfoBlock> = ({classes, user}: UserInfoBlock) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const dispatch = useDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
@@ -23,6 +27,13 @@ export const UserInfoBlock: React.FC<UserInfoBlock> = ({classes, user}: UserInfo
   const handleClose = (): void => {
     setAnchorEl(null);
   };
+
+  const signOut = (): void => {
+    dispatch(userSignOut());
+    handleClose();
+  }
+
+  if (!user) return null;
 
   return (
     <div className={classes.sideMenuUserInfo}>
@@ -48,9 +59,10 @@ export const UserInfoBlock: React.FC<UserInfoBlock> = ({classes, user}: UserInfo
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
+          <Link to={`/home/users/${user._id}`}>
+            <MenuItem onClick={handleClose}>Мой профиль</MenuItem>
+          </Link>
+          <MenuItem onClick={signOut}>Выйти</MenuItem>
         </Menu>
       </div>
     </div>

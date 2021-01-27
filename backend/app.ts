@@ -31,8 +31,9 @@ app.get('/auth/verify', userController.verify);
 app.post('/auth/register', registerValidations, userController.create);
 app.post('/auth/login', passport.authenticate('local'), userController.afterLogin);
 // Tweets routes
-app.get('/tweets', tweetsController.index);
-app.get('/tweets/:id', tweetsController.show);
+app.get('/tweets', passport.authenticate('jwt', {session: false}), tweetsController.index);
+app.get('/tweets/:id', passport.authenticate('jwt', {session: false}), tweetsController.show);
+app.get('/tweets/user/:id', passport.authenticate('jwt', {session: false}), tweetsController.getTweetsById);
 app.post('/tweets', tweetValidation, passport.authenticate('jwt', {session: false}), tweetsController.create);
 app.delete('/tweets/:id', passport.authenticate('jwt', {session: false}), idAndUser, tweetsController.delete);
 app.patch('/tweets/:id', tweetValidation, passport.authenticate('jwt', {session: false}), idAndUser, tweetsController.update);

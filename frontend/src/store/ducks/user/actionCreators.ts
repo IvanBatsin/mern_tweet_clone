@@ -10,7 +10,8 @@ export enum UserActionTypes {
   SET_LODAING_STATE = 'user/SET_LODAING_STATE',
   FETCH_SING_IN = 'user/FETCH_SING_IN',
   FETCH_SING_UP = 'user/FETCH_SING_UP',
-  GET_ME = 'user/GET_ME'
+  GET_ME = 'user/GET_ME',
+  USER_SIGNOUT = 'user/USER_SIGNOUT',
 }
 
 // Interfaces
@@ -33,6 +34,9 @@ export interface IFetchSingUp extends Action<UserActionTypes> {
 export interface IGetMe extends Action<UserActionTypes> {
   type: UserActionTypes.GET_ME
 }
+export interface IUserSignOut extends Action<UserActionTypes> {
+  type: UserActionTypes.USER_SIGNOUT
+}
 
 // Action Creators
 export const setUserData = (payload: IUserState['data']): ISetUserData => ({
@@ -54,5 +58,8 @@ export const fetchSingUp = (payload: IFormInputsRegister): IFetchSingUp => ({
 export const getMe = (): IGetMe => ({
   type: UserActionTypes.GET_ME
 })
+export const userSignOut = (): IUserSignOut => ({
+  type: UserActionTypes.USER_SIGNOUT
+})
 
-export type UserAction = ISetUserData | ISetUserLoading | IFetchSingUp | IGetMe;
+export type UserAction = ISetUserData | ISetUserLoading | IFetchSingUp | IGetMe | IUserSignOut;
