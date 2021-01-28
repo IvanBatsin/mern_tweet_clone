@@ -1,7 +1,7 @@
 import { LoadingState } from '../../../interfaces/LoadingState';
-import { IUser } from '../../../interfaces/User';
+import { User } from '../../../interfaces/User';
 
 export interface IRandomUsersState {
-  users: IUser[],
+  users: User[],
   status: LoadingState
 }

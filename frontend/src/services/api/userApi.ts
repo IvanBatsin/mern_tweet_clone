@@ -1,5 +1,5 @@
 import { axios } from '../../core/axios';
-import { IUser } from '../../interfaces/User';
+import { User } from '../../interfaces/User';
 import { IFormInputs } from '../../pages/singIn/components/LoginModal';
 import { IFormInputsRegister } from '../../pages/singIn/components/RegisterPopup';
 
@@ -29,7 +29,7 @@ interface IAuthResponse {
 
 interface IGetMeResponse {
   status: string,
-  data: IUser
+  data: User
 }
 
 export const userApi = {
@@ -46,12 +46,16 @@ export const userApi = {
       password: postData.password,
       password2: postData.password2
     });
-    console.log(data);
     return data;
   },
   
   async getMe(): Promise<IGetMeResponse> {
     const { data } = await axios.get<IGetMeResponse>('/users/me');
+    return data;
+  },
+
+  async getUserById(payload: string): Promise<IGetMeResponse> {
+    const { data } = await axios.get<IGetMeResponse>('/users/' + payload);
     return data;
   }
 }

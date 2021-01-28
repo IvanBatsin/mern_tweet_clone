@@ -14,8 +14,7 @@ export const TweetImagesList: React.FC<TweetImagesListProps> = ({classes, images
     <div className={classes.imagesList}>
       {images.map(url => 
         <div key={url} className={classes.imagesListItem} style={{backgroundImage:`url(${url})`}}>
-          <img src={url} alt='Tweet image'>
-          </img>
+          <img src={url} alt='Tweet image'/>
             {removeImage &&
               <IconButton className={classes.imagesListItemRemove} onClick={() => removeImage(url)} color="primary">
                 <HighlightOffIcon style={{fontSize: 18}}/>

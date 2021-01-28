@@ -3,7 +3,7 @@ import { IUserState } from './state';
 import { LoadingState } from '../../../interfaces/LoadingState';
 import { IFormInputs } from '../../../pages/singIn/components/LoginModal';
 import { IFormInputsRegister } from '../../../pages/singIn/components/RegisterPopup';
-import { IUser } from '../../../interfaces/User';
+import { User } from '../../../interfaces/User';
 
 export enum UserActionTypes {
   SET_USER_DATA = 'user/SET_USER_DATA',
@@ -17,7 +17,7 @@ export enum UserActionTypes {
 // Interfaces
 export interface ISetUserData extends Action<UserActionTypes> {
   type: UserActionTypes.SET_USER_DATA,
-  payload: IUser | undefined
+  payload: User | undefined
 }
 export interface ISetUserLoading extends Action<UserActionTypes> {
   type: UserActionTypes.SET_LODAING_STATE,

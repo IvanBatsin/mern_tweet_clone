@@ -26,12 +26,12 @@ class UserController {
   async show(req: any, res: express.Response): Promise<void> {
     try {
       const userId = req.params.id;
-      const user = await UserModel.findById(userId).lean();
 
-      if (!Types.ObjectId.isValid(userId)){
+      if (!userId || !Types.ObjectId.isValid(userId)){
         res.status(400).send();
         return;
       }
+      const user = await UserModel.findById(userId).lean();
 
       if (!user){
         res.status(404).send();

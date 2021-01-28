@@ -57,7 +57,7 @@ class TweetsController {
         return;
       }
 
-      const tweets = await TweetModel.find({user: id}).sort({createdAt: -1}).exec();
+      const tweets = await TweetModel.find({user: id}).populate('user').sort({createdAt: -1}).exec();
 
       res.json({
         status: 'success',

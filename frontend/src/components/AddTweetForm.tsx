@@ -5,6 +5,9 @@ import { fetchAddTweet, setAddFormState } from '../store/ducks/tweets/actionCrea
 import { selectAddFormState } from '../store/ducks/tweets/selectors';
 import { AddFormLoading } from '../store/ducks/tweets/state';
 import { UploadImages } from './UploadImages';
+import { User } from '../interfaces/User';
+import { useDispatch, useSelector } from 'react-redux';
+import { uploadPhotos } from '../utils/uploadImages';
 
 // UI
 import Alert from '@material-ui/lab/Alert';
@@ -17,12 +20,11 @@ import Button from '@material-ui/core/Button/Button';
 // Icons
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
-import { useDispatch, useSelector } from 'react-redux';
-import { uploadPhotos } from '../utils/uploadImages';
 
 interface AddTweetFormProps {
   classes: ReturnType<typeof useHomeStyles>,
-  maxRows?: number
+  maxRows?: number,
+  currentUser: User
 }
 
 export interface ImageObject {
@@ -30,7 +32,7 @@ export interface ImageObject {
   blobUrl: string
 }
 
-const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetFormProps): React.ReactElement => {
+const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows, currentUser}: AddTweetFormProps) => {
   const [text, setText] = useState<string>('');
   let textLimitPercent = Math.round((text.length / 280) * 100);
   const MAX_LENGTH = 280;
@@ -57,6 +59,9 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
     setText('');
     setImages([]);
   }
+
+  if (!currentUser) return null;
+  
   return (
     <div>
       <div className={classes.addFormBody}>
@@ -64,7 +69,7 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows}: AddTweetF
           style={{marginRight: 10}}
           className={classes.twitterAvatar}
           alt="Users avatar"
-          src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
+          src={currentUser.avatarUrl}
         />
         <TextareaAutosize
           onChange={handleChangeText}

@@ -16,20 +16,17 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { TweetImagesList } from './TweetImagesList';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserData } from '../store/ducks/user/selector';
-import { IUser } from '../interfaces/User';
+import { User } from '../interfaces/User';
 import { deleteTweet } from '../store/ducks/tweets/actionCreators';
+import { Tweet } from '../interfaces/Tweet';
 
 interface TweetProps {
-  _id: string,
   classes: ReturnType<typeof useHomeStyles>,
-  text: string,
-  createdAt: Date,
-  images?: string[],
-  tweetUser: IUser,
-  currentUser: IUser
+  currentUser: User
+  tweet: Tweet
 }
 
-const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, images, currentUser}: TweetProps)=> {
+export const TweetComponent: React.FC<TweetProps> = ({classes, currentUser, tweet}: TweetProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const history = useHistory();
@@ -43,7 +40,7 @@ const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, 
 
   const handleTweetClick = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    history.push(`/home/tweet/${_id}`);
+    history.push(`/home/tweet/${tweet._id}`);
   }
 
   const handleClose = (event: React.MouseEvent<HTMLElement>): void => {
@@ -57,7 +54,7 @@ const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, 
     event.preventDefault();
     if (window.confirm('Delete this tweet')) {
       handleClose(event);
-      dispatch(deleteTweet(_id));
+      dispatch(deleteTweet(tweet._id));
     }
   }
 
@@ -70,17 +67,17 @@ const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, 
           <div style={{display:'flex', justifyContent:'flex-start', alignItems:'center'}}>
             <Avatar 
               className={classes.twitterAvatar}
-              alt={`${tweetUser.userName}'s avatar`} 
-              src={tweetUser.avatarUrl}/>
+              alt={`${tweet.user.userName}'s avatar`} 
+              src={tweet.user.avatarUrl}/>
             <div style={{marginLeft:15}}>
-              <b>{tweetUser.fullName}</b>
+              <b>{tweet.user.fullName}</b>
               <Typography>
-                <span className={classes.twitterUserName}>@{tweetUser.userName}&nbsp;</span>
-                <span className={classes.twitterUserName}>{formateDate(new Date(createdAt))}</span>
+                <span className={classes.twitterUserName}>@{tweet.user.userName}&nbsp;</span>
+                <span className={classes.twitterUserName}>{formateDate(new Date(tweet.createdAt))}</span>
               </Typography>
             </div>
           </div>
-          {currentUser!._id === tweetUser._id &&
+          {currentUser!._id === tweet.user._id &&
             <div>
               <IconButton
                 aria-label="more"
@@ -108,8 +105,8 @@ const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, 
           }
         </div>
         <Typography variant="body1" gutterBottom>
-          {text}  
-          {images && <TweetImagesList classes={classes} images={images}/>}
+          {tweet.text}  
+          {tweet.images && <TweetImagesList classes={classes} images={tweet.images}/>}
         </Typography>
         <div className={classes.twitterItemFooter}>
           <div>
@@ -138,5 +135,3 @@ const Tweet: React.FC<TweetProps> = ({classes, tweetUser, text, _id, createdAt, 
     </div>
   );
 }
-
-export default Tweet;

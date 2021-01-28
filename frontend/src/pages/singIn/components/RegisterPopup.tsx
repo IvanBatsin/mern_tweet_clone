@@ -66,6 +66,7 @@ const RegisterPopup: React.FC<IRegisterProps> = ({onClose, open}: IRegisterProps
       openNotification.current('Произошла ошибка', 'error');
     }
   }, [loadingStatus]);
+  
   return (
     <ModalPopup visible={open} onClose={onClose} title="Создайте учетную запись" classes={classes}>
       <form onSubmit={handleSubmit(handleFormSubmit)}>

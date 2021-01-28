@@ -1,7 +1,7 @@
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import Typography from '@material-ui/core/Typography/Typography';
 import React from 'react';
-import { IUser } from '../interfaces/User';
+import { User } from '../interfaces/User';
 import { useHomeStyles } from '../pages/home/homeClasses';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Menu from '@material-ui/core/Menu';
@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { userSignOut } from '../store/ducks/user/actionCreators';
 
 interface UserInfoBlock {
-  user: IUser,
+  user: User,
   classes: ReturnType<typeof useHomeStyles>
 }
 
@@ -29,6 +29,7 @@ export const UserInfoBlock: React.FC<UserInfoBlock> = ({classes, user}: UserInfo
   };
 
   const signOut = (): void => {
+    window.localStorage.removeItem('token');
     dispatch(userSignOut());
     handleClose();
   }
@@ -59,7 +60,7 @@ export const UserInfoBlock: React.FC<UserInfoBlock> = ({classes, user}: UserInfo
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <Link to={`/home/users/${user._id}`}>
+          <Link to={`/home/users/${user._id}`} style={{textDecoration:'none', color:'inherit'}}>
             <MenuItem onClick={handleClose}>Мой профиль</MenuItem>
           </Link>
           <MenuItem onClick={signOut}>Выйти</MenuItem>

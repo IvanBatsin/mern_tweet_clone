@@ -32,8 +32,9 @@ function* fetchDeleteTweetRequest({payload}: DeleteTweetInterface) {
 
 function* fetchUserTweets({payload}: FetchUserTweets) {
   try {
+    yield put(setTweets([]));
     yield put(setTweetsLoadingStatus(LoadingState.LOADING));
-    const items = yield call(TweetsApi.fetchUserTweets, payload);
+    const items = yield call(TweetsApi.fetchTweets, payload);
     yield put(setTweets(items));
   } catch (error) {
     console.log(error);

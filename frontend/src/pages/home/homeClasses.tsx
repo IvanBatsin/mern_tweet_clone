@@ -248,19 +248,20 @@ export const useHomeStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     marginRight: 10,
     marginBottom: 10,
+    position: 'relative',
     '& img': {
       width: '100%',
       height: '100%',
-      objectFit: 'cover'
+      objectFit: 'cover',
     },
     '& svg path': {
       fill: 'white'
     }
   },
   imagesListItemRemove: {
-    position: 'relative',
-    top: -5,
-    right: -33,
+    position: 'absolute',
+    top: 0,
+    right: 0,
     padding: '0 !important',
     backgroundColor: 'rgba(64, 64, 64, .5) !important'
   },

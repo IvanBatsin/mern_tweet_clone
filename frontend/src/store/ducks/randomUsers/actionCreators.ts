@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { IUser } from '../../../interfaces/User';
+import { User } from '../../../interfaces/User';
 import { LoadingState } from '../../../interfaces/LoadingState';
 
 export enum RandomUsersActionTypes {
@@ -11,7 +11,7 @@ export enum RandomUsersActionTypes {
 // Interfaces
 export interface ISetRandomUsers extends Action<RandomUsersActionTypes> {
   type: RandomUsersActionTypes.SET_ITEMS,
-  payload: IUser[]
+  payload: User[]
 }
 export interface IFetchRandomUsers extends Action<RandomUsersActionTypes> {
   type: RandomUsersActionTypes.FETCH_RANDOM_USERS
@@ -22,7 +22,7 @@ export interface IRandomUsersLoadingStatus extends Action<RandomUsersActionTypes
 }
 
 // Action Creators
-export const setRandomUsers = (payload: IUser[]): ISetRandomUsers => ({
+export const setRandomUsers = (payload: User[]): ISetRandomUsers => ({
   type: RandomUsersActionTypes.SET_ITEMS,
   payload
 })

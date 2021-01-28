@@ -1,4 +1,4 @@
-import {all} from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
 
 // Sagas
 import { tweetsSaga } from './ducks/tweets/sagas';

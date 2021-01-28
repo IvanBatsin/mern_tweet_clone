@@ -7,8 +7,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHomeStyles } from './pages/home/homeClasses';
 
 // Pages
-import { Home, SingIn } from './pages/index';
-import { selectIsAuth, selectUserConfirm, selectUserLoadingStatus } from './store/ducks/user/selector';
+import { Home, SingIn, Confirm } from './pages/index';
+import { selectIsAuth, selectUserLoadingStatus } from './store/ducks/user/selector';
 
 function App() {
   const classes = useHomeStyles();
@@ -24,6 +24,7 @@ function App() {
     } else if (isReady && !isAuth) {
       history.push('/signin');
     }
+
   }, [isAuth, isReady]);
 
   useEffect(() => {

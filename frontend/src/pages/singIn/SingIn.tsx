@@ -1,7 +1,13 @@
+import React from 'react';
 import { Typography } from '@material-ui/core';
-import React, { useState } from 'react';
 import { useSingInStyles } from './singInClasses';
 import { LoginPopup } from './components/LoginModal';
+import { RegisterPopup } from './components/RegisterPopup';
+import { useSelector } from 'react-redux';
+import { selectUserLoadingStatus } from '../../store/ducks/user/selector';
+import { Notification } from '../../components/Notification';
+import { LoadingState } from '../../interfaces/LoadingState';
+import { AlertDialog } from '../../components/AlertDialog';
 
 // UI components
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -9,13 +15,16 @@ import SearchIcon from '@material-ui/icons/Search';
 import PeopleIcon from '@material-ui/icons/PeopleOutline';
 import ChatIcon from '@material-ui/icons/ChatBubbleOutline';
 import Button from '@material-ui/core/Button';
-import { RegisterPopup } from './components/RegisterPopup';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 const SingIn: React.FC = (): React.ReactElement => {
   const classes = useSingInStyles();
+  const userLoadingState = useSelector(selectUserLoadingStatus);
+  const [showNotification, setShowNotification] = React.useState<boolean>(false);
+  const [showRegisterInfo, setShowRegisterInfo] = React.useState<boolean>(false);
 
   // Dialog state
-  const [visibleModal, setVisibleModal] = useState<'singIn' | 'singUp'>();
+  const [visibleModal, setVisibleModal] = React.useState<'singIn' | 'singUp'>();
   const handleOpenSingIn = (): void => {
     setVisibleModal('singIn');
   }
@@ -26,8 +35,19 @@ const SingIn: React.FC = (): React.ReactElement => {
     setVisibleModal(undefined);
   }
 
+  const handleShowRegisterInfo = (): void => {
+    setShowRegisterInfo(prevState => !prevState);
+  }
+
+  React.useEffect(() => {
+    if (userLoadingState === LoadingState.ERROR) {
+      setShowNotification(true);
+    }
+  }, []);
+
   return (
     <div className={classes.wrapper}>
+      {showNotification && <Notification text={'Неудалось выполнить вход'} type={'warning'}/>}
       <section className={classes.blueSide}>
       <TwitterIcon color="primary" className={classes.blueSideBigIcon}/>
         <ul className={classes.blueSideListInfo}>
@@ -43,6 +63,13 @@ const SingIn: React.FC = (): React.ReactElement => {
         </ul>
       </section>
       <section className={classes.loginSide}>
+        {showRegisterInfo && <AlertDialog 
+          show={handleShowRegisterInfo} 
+          text=' После того, как вы создатите аккаунт, мы пришлем вам на почту ссылку, пройдя по которой, вы подтвертите свой профиль.'
+          title='Как пройти регистрацию?'/>}
+        <Button className={classes.loginSideInfoIcon} onClick={handleShowRegisterInfo}>
+          <HelpOutlineIcon fontSize='large' color='primary'/>
+        </Button>
         <div className={classes.loginSideWrapper}>
           <TwitterIcon color="primary" className={classes.loginSideTwitterIcon}/>
           <Typography className={classes.loginSideTitle} gutterBottom variant="h4">Узнай, что проиходит в мире прямо сейчас</Typography>

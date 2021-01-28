@@ -1,6 +1,6 @@
 import { Button, Hidden, IconButton, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
-import {useHomeStyles} from '../pages/home/homeClasses';
+import { useHomeStyles } from '../pages/home/homeClasses';
 import ModalPopup from './ModalPopup'
 import { Link } from 'react-router-dom';
  
@@ -14,12 +14,14 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CreateIcon from '@material-ui/icons/Create';
 import AddTweetForm from './AddTweetForm';
+import { User } from '../interfaces/User';
 
 interface SideMenuProps {
-  classes: ReturnType<typeof useHomeStyles>
+  classes: ReturnType<typeof useHomeStyles>,
+  currentUser: User
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({classes}: SideMenuProps): React.ReactElement => {
+const SideMenu: React.FC<SideMenuProps> = ({classes, currentUser}: SideMenuProps) => {
   const [visibleAddTweet, setVisisbleAddTweet] = useState<boolean>(false);
 
   const handleOpenAddTweet = (): void => {
@@ -28,6 +30,9 @@ const SideMenu: React.FC<SideMenuProps> = ({classes}: SideMenuProps): React.Reac
   const handleCloseAddTweet = (): void => {
     setVisisbleAddTweet(false);
   }
+
+  if (!currentUser) return null;
+
   return (
     <ul className={classes.sideMenuList}>
       <li className={classes.sideMenuListItem}>
@@ -83,7 +88,9 @@ const SideMenu: React.FC<SideMenuProps> = ({classes}: SideMenuProps): React.Reac
         <div>
           <AccountCircleIcon className={classes.sideMenuListItemIcon}/>&nbsp;
           <Hidden smDown>
-            <Typography className={classes.sideMenuListItemTitle} variant="h6">Профиль</Typography>
+            <Link to={`/home/users/${currentUser._id}`} style={{textDecoration:'none', color:'inherit'}}>
+              <Typography className={classes.sideMenuListItemTitle} variant="h6">Профиль</Typography>
+            </Link>
           </Hidden>
         </div>
       </li>
@@ -99,7 +106,7 @@ const SideMenu: React.FC<SideMenuProps> = ({classes}: SideMenuProps): React.Reac
         </Button>
         <ModalPopup onClose={handleCloseAddTweet} visible={visibleAddTweet}>
           <div style={{width: 550}}>
-           <AddTweetForm maxRows={15} classes={classes}></AddTweetForm>
+           <AddTweetForm maxRows={15} classes={classes} currentUser={currentUser}></AddTweetForm>
           </div>
         </ModalPopup>
       </li>

@@ -1,29 +1,25 @@
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar/Snackbar';
-import Alert, { Color } from '@material-ui/lab/Alert/Alert';
+import { Alert } from '@material-ui/lab';
+
 
 interface INotification {
-  children: (callback: (text: string, type: Color) => void) => React.ReactElement
+  text: string,
+  type: "error" | "success" | "info" | "warning"
 }
 
-const Notification: React.FC<INotification> = ({children}: INotification): React.ReactElement => {
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [notificationObj, setNotificationObj] = React.useState<{text: string, type: Color}>();
+export const Notification: React.FC<INotification> = ({text, type}: INotification) => {
+  const [open, setOpen] = React.useState<boolean>(true);
 
-  const openNotification = (text: string, type: Color) => {
-    setNotificationObj({text, type});
-    setOpen(true);
-  }
+  const handleClose = (event: React.SyntheticEvent | React.MouseEvent): void => {
+    setOpen(false);
+  };
+
   return (
-    <>
-      {children(openNotification)}
-      <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
-        <Alert onClose={() => setOpen(false)} severity={notificationObj?.type}>
-          {notificationObj?.text}
-        </Alert>
-      </Snackbar>
-    </>
+    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity={type}>
+        {text}
+      </Alert>
+    </Snackbar>
   )
 }
-
-export { Notification }

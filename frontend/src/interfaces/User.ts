@@ -1,10 +1,8 @@
-export interface IUser {
+export interface User {
   email: string,
   fullName: string,
   userName: string,
-  // password?: string,
-  confirmed?: boolean,
-  // confirmHash: string
+  confirmed: boolean,
   _id: string,
   website?: string,
   location?: string,

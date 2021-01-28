@@ -1,7 +1,7 @@
 import { LoadingState } from '../../../interfaces/LoadingState';
-import { IUser } from '../../../interfaces/User';
+import { User } from '../../../interfaces/User';
 
 export interface IUserState {
-  data: IUser | undefined,
+  data: User | undefined,
   status: LoadingState
 }

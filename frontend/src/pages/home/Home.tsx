@@ -1,22 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid, Paper, Typography, Container, InputAdornment} from '@material-ui/core';
 import { SearchTextField } from '../../components/SearchTextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTweets } from '../../store/ducks/tweets/actionCreators';
 import { fetchTags } from '../../store/ducks/themes/actionCreators' 
 import { selectTweetsItems, selectTweetsIsLoading } from '../../store/ducks/tweets/selectors';
+import { Route } from 'react-router-dom';
+import { UserInfoBlock } from '../../components/UserInfoBlock';
+import { selectUserData } from '../../store/ducks/user/selector';
+import { UserProfile } from '../index';
 
 // Components
-import { SideMenu, Tweet, TweetForm, Tags, BackButton, FullTweet, RandomUsers } from '../../components';
+import { SideMenu, TweetForm, Tags, BackButton, FullTweet, RandomUsers } from '../../components';
+import { TweetComponent } from '../../components/Tweet';
 
 // UI
 import SearchIcon from '@material-ui/icons/Search';
 import { useHomeStyles } from './homeClasses';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Route } from 'react-router-dom';
-import { UserInfoBlock } from '../../components/UserInfoBlock';
-import { selectUserData } from '../../store/ducks/user/selector';
-import { UserProfile } from '../user/UserProfile';
 
 const Home: React.FC = (): React.ReactElement => {
   const classes = useHomeStyles();
@@ -25,7 +26,7 @@ const Home: React.FC = (): React.ReactElement => {
   let isLoading = useSelector(selectTweetsIsLoading);
   const currentUser = useSelector(selectUserData);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // handleFetchTweets();
     dispatch(fetchTweets());
     // dispatch(fetchTags());
@@ -35,7 +36,7 @@ const Home: React.FC = (): React.ReactElement => {
     <Container className={classes.wrapper} maxWidth="lg">
       <Grid container spacing={3}>
         <Grid item md={3} sm={1} className={classes.sideMenuBlock}>
-          <SideMenu classes={classes}></SideMenu>
+          <SideMenu classes={classes} currentUser={currentUser!}></SideMenu>
           {currentUser && <UserInfoBlock classes={classes} user={currentUser}/>}
         </Grid>
         <Grid item sm={8} md={6} style={{minHeight: '100vh'}}>
@@ -56,7 +57,7 @@ const Home: React.FC = (): React.ReactElement => {
               <Route exact path={['/home', '/home/search']}>
                 <Paper>
                   <div className={classes.addForm}>
-                  <TweetForm classes={classes}/>
+                  <TweetForm classes={classes} currentUser={currentUser!}/>
                   </div>
                   <div className={classes.addFormBottomLine}/>
                 </Paper>
@@ -66,13 +67,9 @@ const Home: React.FC = (): React.ReactElement => {
               {isLoading && <div className={classes.tweetsCentered}><CircularProgress/></div>}
               {(!isLoading && tweets.length > 0) ? 
               tweets.map(item => {
-                return <Tweet 
+                return <TweetComponent 
                           key={item._id} 
-                          images={item.images} 
-                          createdAt={item.createdAt} 
-                          _id={item._id} 
-                          text={item.text} 
-                          tweetUser={item.user} 
+                          tweet={item}
                           classes={classes}
                           currentUser={currentUser!}/>
               }) : null}
@@ -81,7 +78,7 @@ const Home: React.FC = (): React.ReactElement => {
               <FullTweet></FullTweet>
             </Route>
             <Route path='/home/users/:id' exact>
-              <UserProfile user={currentUser!}/>
+              <UserProfile currentUser={currentUser!}/>
             </Route>
           </Paper>
         </Grid>

@@ -21,7 +21,15 @@ export const useSingInStyles = makeStyles(theme => ({
     color: '#10cdd9',
     width: '120%',
     height: '120%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+
+    '@media screen and (max-width: 1100px)': {
+      '&': {
+        width: '90%',
+        height: '90%',
+        top: '35%',
+      }
+    }
   },
   blueSideListInfo: {
     zIndex: 10,
@@ -49,7 +57,13 @@ export const useSingInStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hiiden'
+    overflow: 'hidden',
+    position: 'relative'
+  },
+  loginSideInfoIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10
   },
   loginSideTwitterIcon: {
     fontSize: 50

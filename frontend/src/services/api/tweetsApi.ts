@@ -7,8 +7,8 @@ interface IResponse<T> {
 }
 
 export const TweetsApi = {
-  async fetchTweets(): Promise<Tweet[]>{
-    const {data} = await axios.get<IResponse<Tweet[]>>('/tweets');
+  async fetchTweets(payload?: string): Promise<Tweet[]>{
+    const {data} = await axios.get<IResponse<Tweet[]>>(payload ? `/tweets/user/${payload}` : '/tweets');
     return data.data;
   },
   async fetchItemTweet(id: string): Promise<Tweet> {
@@ -21,9 +21,5 @@ export const TweetsApi = {
   },
   async deleteTweet(id: string): Promise<void> {
     await axios.delete<IResponse<Tweet>>(`/tweets/${id}`);
-  },
-  async fetchUserTweets(payload: string): Promise<Tweet[]> {
-    const {data} = await axios.get<IResponse<Tweet[]>>(`/tweets/user/${payload}`);
-    return data.data;
   }
 }
