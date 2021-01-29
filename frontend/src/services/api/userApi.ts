@@ -4,27 +4,13 @@ import { IFormInputs } from '../../pages/singIn/components/LoginModal';
 import { IFormInputsRegister } from '../../pages/singIn/components/RegisterPopup';
 
 interface IResponseDataSingIn {
-  confirmHash: string,
-  confirmed: boolean,
-  email: string,
-  fullName: string,
-  password: string,
   token: string,
-  userName: string
-}
-
-interface IResponseDataSingUp {
-  confirmHash: string,
-  confirmed: boolean,
-  email: string,
-  fullName: string,
-  password: string,
-  userName: string
+  user: User
 }
 
 interface IAuthResponse {
   status: string,
-  data: IResponseDataSingIn | IResponseDataSingUp
+  data: IResponseDataSingIn | User
 }
 
 interface IGetMeResponse {
@@ -46,6 +32,7 @@ export const userApi = {
       password: postData.password,
       password2: postData.password2
     });
+    console.log(data);
     return data;
   },
   

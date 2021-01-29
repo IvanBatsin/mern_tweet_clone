@@ -7,3 +7,4 @@ export const selectUserLoadingStatus = (state: RootStore): IUserState['status'] 
 export const selectUserData = (state: RootStore): IUserState['data'] => selectUserState(state).data;
 export const selectIsAuth = (state: RootStore): boolean => !!selectUserState(state).data;
 export const selectUserIsLoading = (state: RootStore): boolean => selectUserState(state).status === LoadingState.LOADING;
+export const selectUserIsConfirmed = (state: RootStore): boolean => selectUserState(state).data?.confirmed!;

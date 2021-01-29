@@ -1,8 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import cloudinary from '../core/cloudinary';
+import { HTTPError } from '../interface/HttpException';
 
 class UploadFile {
-  async upload(req: Request, res: Response): Promise<void>{
+  async upload(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction>{
     try {
       cloudinary.v2.uploader.upload_stream((error, result) => {
         if (error || !result) {
@@ -25,10 +26,7 @@ class UploadFile {
       }).end(req.file.buffer);
     } catch (error) {
       console.log(error);
-      res.status(500).json({
-        status: 'error',
-        message: error.toString() || 'Server error'
-      });
+      return next(new HTTPError());
     }
   }
 }

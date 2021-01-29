@@ -1,6 +1,6 @@
 import { SingIn } from './singIn/SingIn';
 import { Home } from './home/Home';
-import { Confirm } from './confirm/ConfirnMessage';
 import { UserProfile } from './user/UserProfile';
+import { Info } from './info/Info';
 
-export { Home, SingIn, Confirm, UserProfile }
+export { Home, SingIn, UserProfile, Info }

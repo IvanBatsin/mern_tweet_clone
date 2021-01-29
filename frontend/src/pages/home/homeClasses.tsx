@@ -107,6 +107,16 @@ export const useHomeStyles = makeStyles((theme) => ({
       fontWeight: 800
     }
   },
+  twitterWrapperHeaderUserLink: {
+    textDecoration: 'none',
+    color: 'inherit',
+    fontSize: 20,
+    transition: 'color .2s',
+
+    '&:hover': {
+      color: 'grey'
+    }
+  },
   twitterWrapperHeaderBackButton: {
     marginRight: 30
   },
@@ -269,5 +279,8 @@ export const useHomeStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 15,
     left: 60,
+  },
+  addCommentForm: {
+    minWidth: 600
   }
 }));

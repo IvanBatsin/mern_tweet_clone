@@ -16,7 +16,7 @@ interface IDialogProps {
   onClose: () => void,
 }
 
-const Modal: React.FC<IDialogProps> = ({title, visible = false, onClose, children}): React.ReactElement | null => {
+const Modal: React.FC<IDialogProps> = ({title, visible = false, onClose, children})=> {
   if (!visible) return null;
   return (
     <Dialog open={visible} onClose={onClose} aria-labelledby="form-dialog-title">

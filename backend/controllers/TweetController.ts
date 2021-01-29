@@ -1,11 +1,12 @@
-import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator/src/validation-result';
 import { TweetModel } from '../models/TweetModel';
 import { UserModelDocument } from '../models/UserModel';
 import { Types } from 'mongoose';
+import { HTTPError } from '../interface/HttpException';
 
 class TweetsController {
-  async index(req: express.Request, res: express.Response): Promise<void> {
+  async index(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
       const tweets = await TweetModel.find().sort({createdAt: -1}).populate('user').exec();
       res.json({
@@ -13,48 +14,39 @@ class TweetsController {
         data: tweets
       });
     } catch (err) {
-      res.status(500).json({
-        message: JSON.stringify(err),
-        status: 'error'
-      });
+      return next(new HTTPError());
     }
   }
 
-  async show(req: express.Request, res: express.Response): Promise<void> {
+  async show(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
       const id = req.params.id;
 
       if (!id && !Types.ObjectId.isValid(id)){
-        res.status(400).send();
-        return;
+        return next(new HTTPError(400, 'Invalid request'));
       }
 
       const tweet = await TweetModel.findById(id).populate('user').exec();
 
       if (!tweet){
-        res.status(404).send();
-        return;
+        return next(new HTTPError(404, 'Not found'));
       }
+
       res.json({
         status: 'success',
         data: tweet
       });
     } catch (err) {
-      res.status(500).json({
-        message: JSON.stringify(err),
-        status: 'error'
-      });
+      return next(new HTTPError());
     }
   }
 
-  async getTweetsById(req: express.Request, res: express.Response): Promise<void> {
+  async getTweetsById(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
       const { id } = req.params;
-      console.log(id)
 
       if (!id || !Types.ObjectId.isValid(id)) {
-        res.status(404).send();
-        return;
+        return next(new HTTPError(404, 'Not found'));
       }
 
       const tweets = await TweetModel.find({user: id}).populate('user').sort({createdAt: -1}).exec();
@@ -64,27 +56,22 @@ class TweetsController {
         data: tweets
       });
     } catch (error) {
-      res.status(500).json({
-        status: 'error',
-        message: 'Server error'
-      });
+      return next(new HTTPError());
     }
   }
 
-  async create(req: express.Request, res: express.Response): Promise<void> {
+  async create(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        res.status(400).json({status:400, errors: errors.array()})
-        return;
+        return next(new HTTPError(400, errors.array()[0].msg))
       }
 
       const { text, images } = req.body;
       const user = req.user as UserModelDocument;
 
       if (!user){
-        res.status(401).send();
-        return;
+        return next(new HTTPError(401, 'Unauthorized'));
       }
       
       const tweet = await TweetModel.create({text, user: user._id, images});
@@ -93,21 +80,17 @@ class TweetsController {
         data: await tweet.populate('user').execPopulate()
       });
     } catch (err) {
-      res.status(500).json({
-        message: JSON.stringify(err),
-        status: 'error'
-      });
+      return next(new HTTPError());
     }
   }
 
-  async delete(req: express.Request, res: express.Response): Promise<void> {
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
       const id = req.params.id;
       const user = req.user as UserModelDocument;
 
       if (!Types.ObjectId.isValid(id)) {
-        res.status(404).send();
-        return;
+        return next(new HTTPError(404, 'Not found'));
       }
 
       const tweet = await TweetModel.findById(id).exec();
@@ -119,22 +102,18 @@ class TweetsController {
 
       res.status(401).send();
     } catch (err) {
-      res.status(500).json({
-        message: JSON.stringify(err),
-        status: 'error'
-      });
+      return next(new HTTPError());
     }
   }
 
-  async update(req: express.Request, res: express.Response): Promise<void> {
+  async update(req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> {
     try {
       const id = req.params.id;
       const { text } = req.body;
       const user = req.user as UserModelDocument;
 
       if (!Types.ObjectId.isValid(id)) {
-        res.status(404).send();
-        return;
+        return next(new HTTPError(404, 'Not found'));
       }
 
       const tweet = await TweetModel.findById(id).exec();
@@ -147,10 +126,7 @@ class TweetsController {
 
       res.status(401).send();
     } catch (err) {
-      res.status(500).json({
-        message: JSON.stringify(err),
-        status: 'error'
-      });
+      return next(new HTTPError());
     }
   }
 };

@@ -75,7 +75,7 @@ const Home: React.FC = (): React.ReactElement => {
               }) : null}
             </Route>
             <Route path='/home/tweet/:id' exact component={FullTweet}>
-              <FullTweet></FullTweet>
+              <FullTweet currentUser={currentUser!}></FullTweet>
             </Route>
             <Route path='/home/users/:id' exact>
               <UserProfile currentUser={currentUser!}/>

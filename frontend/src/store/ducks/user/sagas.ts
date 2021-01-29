@@ -7,7 +7,7 @@ export function* fetchSingInRequest({payload}: IFetchSingInUser){
   try {
     yield put(setUserLoading(LoadingState.LOADING));
     const data = yield call(userApi.singIn, payload);
-    yield put(setUserData(data.data));
+    yield put(setUserData(data.data.user));
     window.localStorage.setItem('token', data.data.token)
   } catch (err) {
     console.log(err);
@@ -19,7 +19,7 @@ export function* fetchSingUpRequest({payload}: IFetchSingUp){
   try {
     yield put(setUserLoading(LoadingState.LOADING));
     const data = yield call(userApi.singUp, payload);
-    yield put(setUserLoading(LoadingState.LOADED));
+    yield put(setUserData(data.data));
   } catch (err) {
     console.log(err);
     yield put(setUserLoading(LoadingState.ERROR));

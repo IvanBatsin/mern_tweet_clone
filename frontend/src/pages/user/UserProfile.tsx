@@ -11,7 +11,7 @@ import { selectTweetsIsLoading, selectTweetsItems } from '../../store/ducks/twee
 import { TweetComponent } from '../../components/Tweet';
 import { useHomeStyles } from '../home/homeClasses';
 import { useHistory, useParams } from 'react-router-dom';
-import { fetchUserTweets } from '../../store/ducks/tweets/actionCreators';
+import { fetchTweets, fetchUserTweets } from '../../store/ducks/tweets/actionCreators';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { userApi } from '../../services/api/userApi';
 import { Skeleton } from '@material-ui/lab';
@@ -49,6 +49,10 @@ export const UserProfile: React.FC<UserProfileProps> = ({currentUser}: UserProfi
         fetchUser();
       }
       dispatch(fetchUserTweets(userId));
+    }
+
+    return () => {
+      dispatch(fetchTweets());
     }
   }, []);
 

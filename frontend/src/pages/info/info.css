@@ -1,0 +1,43 @@
+.infoPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.infoPageHeader {
+  width: 100%;
+  background-color: rgb(29, 161, 242);
+  min-height: 100px;
+  color: white;
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.infoPageHeader h3 {
+  margin-left: 20px;
+}
+.infoPageHeader svg {
+  margin-right: 20px;
+}
+.infoPageContent {
+  max-width: 1000px;
+  margin: auto;
+  padding: 30px;
+}
+.infoPageContent h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  color: #14171a;
+}
+.infoPageContent h2 svg {
+  color: rgb(29, 161, 242);
+  margin-left: 10px;
+}
+.infoPageContent h6 {
+  color: #4c4c4d;
+}

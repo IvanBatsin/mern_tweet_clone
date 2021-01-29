@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMe } from './store/ducks/user/actionCreators';
@@ -7,8 +7,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHomeStyles } from './pages/home/homeClasses';
 
 // Pages
-import { Home, SingIn, Confirm } from './pages/index';
-import { selectIsAuth, selectUserLoadingStatus } from './store/ducks/user/selector';
+import { Home, Info, SingIn, UserProfile } from './pages/index';
+import { selectIsAuth, selectUserIsConfirmed, selectUserLoadingStatus } from './store/ducks/user/selector';
 
 function App() {
   const classes = useHomeStyles();
@@ -16,18 +16,21 @@ function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const userLoadingState = useSelector(selectUserLoadingStatus);
+  const userConfirmed = useSelector(selectUserIsConfirmed);
   const isReady = userLoadingState !== LoadingState.NEVER && userLoadingState !== LoadingState.LOADING;
 
-  useEffect(() => {
-    if (isAuth && isReady && userLoadingState === LoadingState.LOADED){
+  React.useEffect(() => {
+    if (isAuth && isReady && userLoadingState === LoadingState.LOADED && userConfirmed){
       history.push('/home');
     } else if (isReady && !isAuth) {
       history.push('/signin');
+    } else if (isAuth && !userConfirmed) {
+      history.push('/info')
     }
 
   }, [isAuth, isReady]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(getMe());
   }, []);
 
@@ -36,8 +39,9 @@ function App() {
   return (
     <div className="App" style={{minHeight: '100vh'}}>
       <Switch>
-        <Route path="/signin" exact component={SingIn}></Route>
-        <Route path="/home" component={Home}></Route>
+        <Route path="/signin" exact component={SingIn}/>
+        <Route path="/home" component={Home}/>
+        <Route path="/info" exact component={Info}/>
       </Switch>
     </div>
   );
