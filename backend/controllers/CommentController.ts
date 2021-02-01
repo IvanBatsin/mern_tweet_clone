@@ -13,7 +13,7 @@ class CommentController {
         return next(new HTTPError(400, 'Invalid tweet id'));
       }
 
-      const comments = await CommentModel.find({tweetId}).populate('owner').exec();
+      const comments = await CommentModel.find({tweetId}).sort({createdAt: -1}).populate('owner').exec();
 
       res.json({
         status: 'success',

@@ -104,7 +104,7 @@ export const TweetComponent: React.FC<TweetProps> = ({classes, currentUser, twee
             </div>
           }
         </div>
-        <Typography variant="body1" gutterBottom>
+        <Typography variant="body1" style={{overflow:'hidden'}} gutterBottom>
           {tweet.text}  
           {tweet.images && <TweetImagesList classes={classes} images={tweet.images}/>}
         </Typography>
@@ -113,7 +113,6 @@ export const TweetComponent: React.FC<TweetProps> = ({classes, currentUser, twee
             <IconButton color="primary">
               <ChatBubbleOutlineIcon style={{fontSize: 20}}></ChatBubbleOutlineIcon>
             </IconButton>
-            <span>1</span>
           </div>
           <div>
             <IconButton color="primary">

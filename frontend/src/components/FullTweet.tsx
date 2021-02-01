@@ -13,6 +13,10 @@ import { Link } from 'react-router-dom';
 import { TweetImagesList } from './TweetImagesList';
 import { ModalPopup } from './index';
 import { AddCommentForm } from './AddCommentForm';
+import { User } from '../interfaces/User';
+import { Comment } from '../interfaces/Comment';
+import { commentAPi } from '../services/api/commentsApi';
+import { CommentComponent } from './CommentComponent';
 
 // UI
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -21,7 +25,6 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import PublishIcon from '@material-ui/icons/Publish';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import Grid from '@material-ui/core/Grid/Grid';
-import { User } from '../interfaces/User';
 
 interface FullTweetForm {
   currentUser: User
@@ -29,9 +32,10 @@ interface FullTweetForm {
 
 const FullTweet: React.FC<FullTweetForm> = ({currentUser}: FullTweetForm) => {
   const classes = useHomeStyles();
-  const dispatch = useDispatch();
-  const { id } = useParams<{id: string}>();
   const [visibleAddComment, setVisibleAddComment] = React.useState<boolean>(false);
+  const [comments, setComments] = React.useState<Comment[]>([]);
+  const { id } = useParams<{id: string}>();
+  const dispatch = useDispatch();
   const tweet = useSelector(selectFullTweetData);
   const tweetIsLoaded = useSelector(selectFullTweetIsLoaded);
 
@@ -43,8 +47,25 @@ const FullTweet: React.FC<FullTweetForm> = ({currentUser}: FullTweetForm) => {
     setVisibleAddComment(false);
   }
 
+  const handleAddComment = (payload: Comment): void => {
+    setComments(prevState => [payload, ...prevState]);
+    handleCloseModal();
+  }
+
+  const fetchTweetComments = async (): Promise<void> => {
+    try {
+      const data = await commentAPi.getComments(id);
+      setComments(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   React.useEffect(() => {
-    if (id) dispatch(fetchFullTweet(id));
+    if (id) {
+      dispatch(fetchFullTweet(id));
+      fetchTweetComments();
+    }
 
     return () => {
       dispatch(setFullTweet(undefined));
@@ -60,16 +81,17 @@ const FullTweet: React.FC<FullTweetForm> = ({currentUser}: FullTweetForm) => {
   if (!tweetIsLoaded) return <div className={classes.tweetsCentered}><CircularProgress/></div>;
   if (tweet) {
     return (
-      <Grid container>
-        <Paper className={classNames(classes.twitterWrapperHeader, classes.twitterItem)} style={{display:'flex', width:'100%'}}>
-          <Grid item md={1} sm={1}>
-            <Avatar 
-              className={classes.twitterAvatar}
-              alt={`${tweet.user.userName}'s avatar`} 
-              src={tweet.user.avatarUrl}/>
-          </Grid>
-          <Grid item  md={11} sm={11}>
-            <Typography style={{marginLeft: 20}}>
+      <>
+        <Grid container style={{borderBottom:'0.5px solid #efecec'}}>
+          <Paper className={classNames(classes.twitterWrapperHeader, classes.twitterItem)} style={{display:'flex', width:'100%'}}>
+            <Grid item md={1} sm={1}>
+              <Avatar 
+                className={classes.twitterAvatar}
+                alt={`${tweet.user.userName}'s avatar`} 
+                src={tweet.user.avatarUrl}/>
+            </Grid>
+            <Grid item  md={11} sm={11}>
+              <Typography style={{marginLeft: 20}}>
                 <b><Link className={classes.twitterWrapperHeaderUserLink} to={`/home/users/${tweet.user._id}`}>{tweet.user.fullName}</Link></b>  
                 <div>
                   <span className={classes.twitterUserName}>@{tweet.user.userName}&nbsp;</span>
@@ -82,16 +104,19 @@ const FullTweet: React.FC<FullTweetForm> = ({currentUser}: FullTweetForm) => {
                   {tweet.images && <TweetImagesList classes={classes} images={tweet.images}/>}
                 </div>
               </Typography>
-          </Grid>
-        </Paper>
+            </Grid>
+          </Paper>
           <div className={classes.twitterItemFooter} style={{width:'100%', margin:'auto'}}>
             <div>
               <IconButton color="primary" onClick={handleOpenModal}>
                 <ChatBubbleOutlineIcon style={{fontSize: 20}}></ChatBubbleOutlineIcon>
               </IconButton>
-              <span>1</span>
+              <span>{comments.length > 0 ? comments.length : null}</span>
               <ModalPopup onClose={handleCloseModal} visible={visibleAddComment}>
-                <AddCommentForm currentUser={currentUser}/>
+                <AddCommentForm 
+                  currentUser={currentUser} 
+                  tweetId={id}
+                  addNewComment={handleAddComment}/>
               </ModalPopup>
             </div>
             <div>
@@ -110,7 +135,11 @@ const FullTweet: React.FC<FullTweetForm> = ({currentUser}: FullTweetForm) => {
               </IconButton>
             </div>
           </div>
-      </Grid>
+        </Grid>
+        <div style={{overflowY:'auto', height:'calc(100vh - 310px)'}}>
+          {comments.length > 0 && comments.map(comment => <CommentComponent comment={comment} classes={classes}/>)}
+        </div>
+      </>
     );
   }
   return null;

@@ -40,7 +40,7 @@ const Home: React.FC = (): React.ReactElement => {
           {currentUser && <UserInfoBlock classes={classes} user={currentUser}/>}
         </Grid>
         <Grid item sm={8} md={6} style={{minHeight: '100vh'}}>
-          <Paper className={classes.twitterWrapper} style={{height: '100%'}} variant="outlined">
+          <Paper className={classes.twitterWrapper} style={{height: '100vh', overflowY: 'auto'}} variant="outlined">
             <Paper className={classes.twitterWrapperHeader} variant="outlined">
               <Route path="/home/:any">
                 <BackButton classes={classes}/>

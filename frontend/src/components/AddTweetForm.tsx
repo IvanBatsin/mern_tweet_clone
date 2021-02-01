@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { useHomeStyles } from '../pages/home/homeClasses';
 import { fetchAddTweet, setAddFormState } from '../store/ducks/tweets/actionCreators';
@@ -20,6 +20,8 @@ import Button from '@material-ui/core/Button/Button';
 // Icons
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
+import { useFormText } from '../hooks/useFormText';
+import { FormCircularProgress } from './FormTextCircularProgress';
 
 interface AddTweetFormProps {
   classes: ReturnType<typeof useHomeStyles>,
@@ -33,19 +35,13 @@ export interface ImageObject {
 }
 
 const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows, currentUser}: AddTweetFormProps) => {
-  const [text, setText] = useState<string>('');
-  let textLimitPercent = Math.round((text.length / 280) * 100);
   const MAX_LENGTH = 280;
+  const {text, handleChangeText, setText} = useFormText('', MAX_LENGTH);
+  let textLimitPercent = Math.round((text.length / MAX_LENGTH) * 100);
   let textCount = MAX_LENGTH - text.length;
   const [images, setImages] = React.useState<ImageObject[]>([]);
   const dispatch = useDispatch();
   const addFormState = useSelector(selectAddFormState);
-
-  const handleChangeText = (event: React.FormEvent<HTMLTextAreaElement>): void => {
-    if (event.currentTarget && event.currentTarget.value.length <= 280){
-      setText(event.currentTarget.value);
-    }
-  }
 
   const handleClickAddTweet = async (): Promise<void> => {
     const result = [];
@@ -85,28 +81,15 @@ const AddTweetForm: React.FC<AddTweetFormProps> = ({classes, maxRows, currentUse
         </div>
         <div className={classes.addFormBottomRight}>
           {text.length ?
-          (<>
-            <span>{textCount}</span>
-            <div className={classes.addFormCircleProgress}>
-              <CircularProgress 
-                variant="static" 
-                size={20} 
-                thickness={4} 
-                value={text.length >= MAX_LENGTH ? 100 : textLimitPercent}
-                style={text.length >= MAX_LENGTH ? {color: 'red'} : undefined}/>
-              <CircularProgress 
-                style={{color: 'rgba(0, 0, 0, .1)'}}
-                variant="static"
-                size={20}
-                thickness={4}
-                value={100}
-              />
-            </div>
-            </>)
-            : null}
+            <FormCircularProgress 
+              MAX_LENGTH={MAX_LENGTH} 
+              classes={classes}
+              text={text}
+              textCount={textCount}
+              textLimitPercent={textLimitPercent}/> : null}
           <Button 
             onClick={handleClickAddTweet}
-            disabled={addFormState === AddFormLoading.LOADING || !text || text.length >= 280} 
+            disabled={addFormState === AddFormLoading.LOADING || !text || text.length >= MAX_LENGTH} 
             color="primary" 
             variant="contained">
             {addFormState === AddFormLoading.LOADING ? <CircularProgress size={16} color="secondary"></CircularProgress> : 'Твитнуть'}
